@@ -118,16 +118,19 @@ main {
 
 /* Watchlist Button - visually distinct, accent, right-aligned in navbar */
 .btn-watchlist {
-  background: var(--accent);
+  /* Subtle red-pink diagonal glass gradient and frosted glass blur */
+  background:
+    linear-gradient(98deg, rgba(229,9,20,0.93) 25%, rgba(244,75,117,0.87) 71%, rgba(229,9,54,0.81) 100%);
   color: #fff;
-  border: none;
+  border: 2.4px solid rgba(255,68,88,0.30); /* Slight, softly colored border for contrast */
   border-radius: 22px;
   padding: 0.36em 1.05em;
   margin-left: 10px;
+  box-sizing: border-box;
   font-size: 0.98rem;
   font-family: inherit;
-  font-weight: 700;
-  letter-spacing: 0.019em;
+  font-weight: 760;
+  letter-spacing: 0.024em;
   outline: none;
   display: inline-flex;
   align-items: center;
@@ -137,16 +140,83 @@ main {
   position: relative;
   z-index: 2;
   overflow: visible;
-  text-shadow: none;
+  text-shadow:
+    0 1px 6px #e5091428;
   min-height: 32px;
   min-width: 90px;
-  /* Enhanced glow/shadow and transitions */
-  box-shadow: 0 1px 12px 0 #e5091455, 0 0.5px 2px 0 #e509141e;
+
+  /* Frosted glass effect: */
+  backdrop-filter: blur(7px) saturate(1.35);
+  -webkit-backdrop-filter: blur(7px) saturate(1.35);
+
+  /* Soft inner shadow for depth (subtle) */
+  box-shadow:
+    0 1.5px 12px 0 #e5091477,
+    0 0.5px 2px 0 #e5091436,
+    0 0 0 2.1px rgba(229,9,20,0.12) inset,
+    0 2.5px 12px 0 rgba(255,68,126,0.13) inset;
+
+  /* Soft shine/overlay using a pseudo element */
   transition:
     box-shadow 0.28s cubic-bezier(.39,.15,.57,1.03),
     background 0.19s cubic-bezier(.56,.03,.58,1),
     color 0.16s,
-    transform 0.16s;
+    transform 0.16s,
+    border 0.13s;
+}
+
+.btn-watchlist::after {
+  /* Shine/soft overlay for depth, non-intrusive */
+  content: '';
+  pointer-events: none;
+  position: absolute;
+  left: 5%; right: 5%;
+  top: 8%; height: 50%;
+  border-radius: 18px 18px 12px 12px;
+  background:
+    linear-gradient(100deg, rgba(255,255,255,0.14) 10%, rgba(255,255,255,0.10) 26%, rgba(255,255,255,0.01) 95%);
+  box-shadow: 0 2px 5px 0px rgba(255,255,255,0.03) inset;
+  z-index: 1;
+}
+
+.btn-watchlist:hover,
+.btn-watchlist:focus {
+  background:
+    linear-gradient(95deg, #e50914 24%, #ff357c 67%, #f08394 100%);
+  color: #fff;
+  /* Stronger, sharper layered red/pink glow */
+  box-shadow:
+    0 0 16px 6px #e50914e0,
+    0 2px 18px 3px #ff357c7d,
+    0 5px 22px 0 #e509145b,
+    0 0 0 3.5px #f3345290;
+  outline: none;
+  text-shadow: 0 1.5px 6px #fc85b7aa, 0 1.2px 5px #e5091475;
+  border: 2.4px solid #ff357ccb;
+  transform: scale(1.075);
+}
+
+/* Slight press effect for accessibility */
+.btn-watchlist:active {
+  box-shadow:
+    0 0 7px 1px #e50914cc,
+    0 1.5px 9px 0 #ff357c42;
+  background:
+    linear-gradient(96deg, #e50914 26%, #c5114f 88%);
+}
+
+/* Ensure font stays readable/weighted for accessibility and clean lines */
+.btn-watchlist span, .btn-watchlist-label {
+  font-weight: 760;
+  letter-spacing: 0.035em;
+  font-family: 'Segoe UI', 'Roboto', 'Montserrat', system-ui, sans-serif;
+  font-size: 1em;
+}
+
+/* Remove default text-shadow in force, but use soft glow for definition */
+.btn-watchlist:focus-visible {
+  outline: 2.7px solid #ff357cb7;
+  outline-offset: 1.6px;
 }
 
 .btn-watchlist:hover,

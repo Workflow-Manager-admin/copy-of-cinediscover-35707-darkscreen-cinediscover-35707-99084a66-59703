@@ -335,6 +335,66 @@ main {
   color: #fff;
 }
 
+/* -- CineScope Custom Search Button -- */
+.search-btn {
+  background: linear-gradient(94deg, #19171b 75%, #24070e 130%);
+  border: 2px solid var(--accent);
+  color: var(--accent);
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 1.04em;
+  min-width: 40px;
+  min-height: 41px;
+  box-shadow: 0 2px 9px #e5091424;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background .14s, color .14s, border .13s, box-shadow .15s, transform 0.11s;
+  outline: none;
+  margin-left: 6px;
+  margin-right: 0;
+  display: inline-flex;
+  padding: 0.53em 1.22em;
+  gap: 0.15em;
+  user-select: none;
+}
+.search-btn:focus, .search-btn:focus-visible {
+  outline: 2.2px solid var(--accent);
+  box-shadow: 0 0 0 2.4px var(--accent), 0 2px 16px 3px #e5091449;
+  background: var(--accent-hover);
+  color: #fff;
+}
+.search-btn:hover {
+  background: var(--accent);
+  color: #fff;
+  transform: scale(1.048);
+}
+.search-btn:active {
+  background: var(--accent-hover);
+  color: #fff;
+}
+.search-btn .search-btn-icon {
+  font-size: 1.23em;
+  line-height: 1;
+  user-select: none;
+  pointer-events: none;
+  vertical-align: middle;
+}
+.search-btn .search-btn-label {
+  display: none; /* Visually hidden for icon-only use, but present for screen readers */
+}
+
+/* Responsive stacking for small screens: search input and buttons */
+@media (max-width: 570px) {
+  .search-btn {
+    padding: 0.48em 0.83em;
+    font-size: 0.99em;
+    min-width: 34px;
+    min-height: 38px;
+  }
+  /* The parent .container for search area may already wrap elements vertically as needed */
+}
+
 /* Sort Button - visually similar to .btn but smaller and in-line */
 .sort-btn {
   padding: 0.35em 0.85em;

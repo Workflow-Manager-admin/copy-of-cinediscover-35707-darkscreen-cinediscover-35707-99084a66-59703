@@ -249,38 +249,70 @@ function MovieContainer({ watchlist, setWatchlist }) {
           justifyContent: "center",
           alignItems: "center",
           width: "100%",
-          flexWrap: "wrap"
+          flexWrap: "wrap",
+          gap: "0.5em"
         }}>
-        <input
-          type="text"
-          value={query}
-          onChange={e => setQuery(e.target.value)}
-          placeholder="Search by title…"
-          aria-label="Search movies"
-          autoFocus
-          style={{
-            width: "100%",
-            maxWidth: 340,
-            padding: "0.6em 1.2em",
-            fontSize: "1.07rem",
-            borderRadius: 6,
-            border: "2px solid var(--accent)",
-            outline: "none",
-            background: "var(--card-bg)",
-            color: "var(--text-color)",
-            boxShadow: "0 2px 10px #e5091417",
-            fontWeight: 500,
-            marginRight: 8,
-            letterSpacing: "0.01em"
-          }}
-          onKeyDown={e => { if (e.key === "Escape") setQuery(""); }} // Clear on Esc
-        />
-        {/* Sort Button and Clear Button are horizontally aligned */}
+        <div style={{ display: "flex", alignItems: "center", width: "100%", maxWidth: 390 }}>
+          <input
+            type="text"
+            value={query}
+            onChange={e => setQuery(e.target.value)}
+            placeholder="Search by title…"
+            aria-label="Search movies"
+            autoFocus
+            style={{
+              width: "100%",
+              maxWidth: 340,
+              padding: "0.6em 1.2em",
+              fontSize: "1.07rem",
+              borderRadius: 6,
+              border: "2px solid var(--accent)",
+              outline: "none",
+              background: "var(--card-bg)",
+              color: "var(--text-color)",
+              boxShadow: "0 2px 10px #e5091417",
+              fontWeight: 500,
+              marginRight: 0,
+              letterSpacing: "0.01em",
+              flex: "1 1 0"
+            }}
+            onKeyDown={e => {
+              if (e.key === "Escape") {
+                setQuery("");
+              } else if (e.key === "Enter") {
+                // Manual trigger search on Enter
+                setDebouncedQuery(query.trim());
+              }
+            }}
+          />
+          <button
+            className="btn search-btn"
+            aria-label="Start search"
+            title="Search"
+            type="button"
+            style={{
+              marginLeft: "6px",
+              padding: "0.53em 1.22em",
+              display: "inline-flex",
+              alignItems: "center",
+              fontWeight: 700,
+              fontSize: "1.04em",
+              borderRadius: "6px",
+              height: "41px",
+              minWidth: "unset"
+            }}
+            onClick={() => setDebouncedQuery(query.trim())}
+          >
+            <span className="search-btn-icon" aria-hidden="true" style={{ marginRight: "0.2em" }}>🔍</span>
+            <span className="search-btn-label" style={{ display: "none" }}>Search</span>
+          </button>
+        </div>
         <div style={{
           display: "inline-flex",
           alignItems: "center",
           marginLeft: "3px",
-          gap: "2px"
+          gap: "2px",
+          marginTop: "7px"
         }}>
           <SortButton
             direction={sortDir}

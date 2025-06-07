@@ -1,10 +1,37 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import MovieContainer from './MovieContainer';
+import WatchlistModal from './WatchlistModal';
 import backgrnImg from './20250607_151420_backgrn.jpg';
 
 // PUBLIC_INTERFACE
 function App() {
+  // -- Watchlist state LIFTED here --
+  const [watchlist, setWatchlist] = useState(() => {
+    try {
+      const saved = window.localStorage.getItem("cine_watchlist");
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
+
+  // Persist watchlist to localStorage on change
+  useEffect(() => {
+    window.localStorage.setItem("cine_watchlist", JSON.stringify(watchlist));
+  }, [watchlist]);
+
+  // Modal open state
+  const [modalOpen, setModalOpen] = useState(false);
+
+  // Accessibility: Close modal on navigation or hashchange
+  useEffect(() => {
+    if (!modalOpen) return;
+    const onNav = () => setModalOpen(false);
+    window.addEventListener("hashchange", onNav);
+    return () => window.removeEventListener("hashchange", onNav);
+  }, [modalOpen]);
+
   return (
     <div className="app">
       {/* Ensure background image is rendered and never blocks content */}
@@ -25,12 +52,10 @@ function App() {
           minWidth: 240,
           height: "auto",
           zIndex: 0,
-          opacity: 0.17, // Slightly less prominent
+          opacity: 0.17,
           filter: "blur(13px) saturate(1.17) grayscale(0.17)",
-          maskImage:
-            "linear-gradient(110deg, transparent 3%, #000 30%, #000 100%)",
-          WebkitMaskImage:
-            "linear-gradient(110deg, transparent 3%, #000 30%, #000 100%)",
+          maskImage: "linear-gradient(110deg, transparent 3%, #000 30%, #000 100%)",
+          WebkitMaskImage: "linear-gradient(110deg, transparent 3%, #000 30%, #000 100%)",
           transition: "opacity 0.35s",
           background: "none",
           userSelect: "none",
@@ -61,6 +86,7 @@ function App() {
               aria-label="View Watchlist"
               tabIndex={0}
               title="View your saved Watchlist"
+              onClick={() => setModalOpen(true)}
               style={{
                 marginLeft: 8,
                 minWidth: 90,
@@ -85,8 +111,14 @@ function App() {
         </div>
       </nav>
       <main style={{ position: "relative", zIndex: 2 }}>
+        {/* Display watchlist modal overlay (portal-like) */}
+        <WatchlistModal
+          open={modalOpen}
+          onClose={() => setModalOpen(false)}
+          watchlist={watchlist}
+        />
         {/* Integrate main MovieContainer for business logic, replacing old hero */}
-        <MovieContainer />
+        <MovieContainer watchlist={watchlist} setWatchlist={setWatchlist} />
       </main>
     </div>
   );

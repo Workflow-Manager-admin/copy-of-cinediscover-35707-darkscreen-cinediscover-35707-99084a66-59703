@@ -24,8 +24,16 @@ import React, { useEffect, useState } from "react";
  *
  * OMDb API Docs: http://www.omdbapi.com/
  */
+/**
+ * MovieContainer - Main container component handling movie fetch,
+ * loading/offline handling, and watchlist management via props.
+ *
+ * Props:
+ *  - watchlist: the current user's watchlist (array of movie objects)
+ *  - setWatchlist: setter function to update watchlist
+ */
 // PUBLIC_INTERFACE
-function MovieContainer() {
+function MovieContainer({ watchlist, setWatchlist }) {
   // Movie list fetched from OMDb API
   const [movies, setMovies] = useState([]);
   // Loading state for movie fetch
@@ -34,16 +42,6 @@ function MovieContainer() {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
   // Fetch error or offline state (to trigger offline/error overlay)
   const [fetchError, setFetchError] = useState(null);
-  // Watchlist state synchronized with localStorage
-  const [watchlist, setWatchlist] = useState(() => {
-    try {
-      // Get list from localStorage or default to empty array
-      const saved = window.localStorage.getItem("cine_watchlist");
-      return saved ? JSON.parse(saved) : [];
-    } catch {
-      return [];
-    }
-  });
 
   // Search query state, default to "star" (legacy) or empty string for blank
   const [query, setQuery] = useState("star");
@@ -74,11 +72,6 @@ function MovieContainer() {
     }, 350);
     return () => clearTimeout(handler);
   }, [query]);
-
-  // Persist watchlist to localStorage on change
-  useEffect(() => {
-    window.localStorage.setItem("cine_watchlist", JSON.stringify(watchlist));
-  }, [watchlist]);
 
   // Fetch movies from OMDb API with debounced query
   useEffect(() => {

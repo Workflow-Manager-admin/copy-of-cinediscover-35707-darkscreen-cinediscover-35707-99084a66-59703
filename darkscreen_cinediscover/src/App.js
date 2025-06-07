@@ -120,6 +120,12 @@ function App() {
         {/* Integrate main MovieContainer for business logic, replacing old hero */}
         <MovieContainer watchlist={watchlist} setWatchlist={setWatchlist} />
       </main>
+      {/* Responsive, sticky footer with legal/disclaimer message */}
+      <footer className="cine-footer" role="contentinfo">
+        <span className="cine-footer-text">
+          All movie data and images are sourced from public APIs (e.g., OMDb). This site is for personal/educational use only &copy; All rights to respective content owners.
+        </span>
+      </footer>
     </div>
   );
 }

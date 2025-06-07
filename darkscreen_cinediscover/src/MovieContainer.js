@@ -284,8 +284,26 @@ function MovieContainer() {
                     href={`https://www.google.com/search?q=${encodeURIComponent(movie.Title + " showtimes near me")}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    title="Search showtimes"
+                    title="Show showtimes for this movie in Google"
                     tabIndex={0}
+                    style={{
+                      background: "var(--accent)",
+                      color: "#fff",
+                      marginLeft: 8,
+                      border: "none",
+                      fontWeight: 600,
+                      letterSpacing: ".01em",
+                      padding: "0.5em 1.25em",
+                      borderRadius: "5px",
+                      transition: "background .15s",
+                      textDecoration: "none",
+                      boxShadow: "0 2px 10px #e509142b",
+                      outline: "none",
+                      fontSize: 14,
+                      cursor: "pointer"
+                    }}
+                    onMouseOver={e => (e.target.style.background = "#b00610")}
+                    onMouseOut={e => (e.target.style.background = "var(--accent)")}
                   >
                     Showtimes
                   </a>

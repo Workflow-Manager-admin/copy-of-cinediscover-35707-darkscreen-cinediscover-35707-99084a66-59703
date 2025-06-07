@@ -21,45 +21,7 @@ body,
   position: relative;
 }
 
-.app-bg-art {
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  width: 47vw;
-  max-width: 600px;
-  min-width: 240px;
-  height: auto;
-  z-index: 0;
-  pointer-events: none;
-  opacity: 0.17;
-  filter: blur(13px) saturate(1.17) grayscale(0.17);
-  /* Fade out towards left/top for subtlety */
-  mask-image: linear-gradient(110deg, transparent 3%, #000 30%, #000 100%);
-  -webkit-mask-image: linear-gradient(110deg, transparent 3%, #000 30%, #000 100%);
-  transition: opacity 0.35s;
-  user-select: none;
-  background: none !important;
-}
-
-@media (max-width: 800px) {
-  .app-bg-art {
-    width: 74vw;
-    min-width: 160px;
-    max-width: 94vw;
-    opacity: 0.21;
-    filter: blur(9px) saturate(1.11) grayscale(0.15);
-  }
-}
-@media (max-width: 520px) {
-  .app-bg-art {
-    right: -18vw;
-    width: 115vw;
-    min-width: 100px;
-    max-width: 110vw;
-    opacity: 0.23;
-    filter: blur(7px) saturate(1.02) grayscale(0.24);
-  }
-}
+/* (Background image and .app-bg-art styles removed; app now uses plain dark theme background) */
 .app {
   min-height: 100vh;
   display: flex;

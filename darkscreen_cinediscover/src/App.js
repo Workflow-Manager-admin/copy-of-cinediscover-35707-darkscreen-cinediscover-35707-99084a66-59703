@@ -6,13 +6,16 @@ import MovieContainer from './MovieContainer';
 function App() {
   return (
     <div className="app">
-      <nav className="navbar">
+      <nav className="navbar cine-navbar">
         <div className="container">
-          <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-            <div className="logo">
-              <span className="logo-symbol">*</span> KAVIA AI
+          <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
+            {/* CineScope Brand Header */}
+            <div className="cine-logo-header">
+              <span className="cine-logo-icon" aria-label="CineScope" role="img">🎬</span>
+              <span className="cine-logo-text">Cine
+                <span style={{ color: 'var(--accent)' }}>Scope</span>
+              </span>
             </div>
-            <button className="btn">Template Button</button>
           </div>
         </div>
       </nav>

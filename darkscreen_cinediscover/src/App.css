@@ -42,30 +42,58 @@ body,
 /* Navbar styles */
 .navbar {
   width: 100%;
-  min-height: 56px;
+  min-height: 64px;
   padding: 0;
-  background: var(--kavia-dark);
+  background: linear-gradient(90deg, #18181c 65%, #1a050a 110%);
   display: flex;
   align-items: center;
-  box-shadow: 0 2px 15px 0 rgba(0,0,0,.12);
+  box-shadow: 0 3.5px 24px 0 #e509142c, 0 2px 15px 0 rgba(0,0,0,.22);
   position: fixed;
   top: 0;
   left: 0;
   z-index: 99;
+  border-bottom: 2.5px solid var(--accent);
 }
-.logo {
-  font-family: 'Segoe UI', 'Roboto', 'Oxygen', sans-serif;
-  font-weight: 600;
-  font-size: 1.27rem;
-  color: var(--accent);
+
+/* CineScope Header Custom Styles */
+.cine-navbar {
+  background: linear-gradient(90deg, #16161b 76%, #250307 110%);
+  box-shadow: 0 4px 22px 0 #e5091428;
+  border-bottom: 2.5px solid var(--accent);
+}
+
+.cine-logo-header {
   display: flex;
   align-items: center;
-  letter-spacing: 0.03em;
+  min-height: 64px;
+  font-family: 'Segoe UI', 'Roboto', 'Oxygen', 'Montserrat', 'Arial Black', sans-serif;
+  cursor: pointer;
 }
-.logo-symbol {
-  font-size: 1.36rem;
+
+.cine-logo-icon {
+  font-size: 2.13rem;
+  margin-right: 15px;
   color: var(--accent);
-  margin-right: 4px;
+  filter: drop-shadow(0 2px 4px #e5091460);
+  text-shadow: 0 2px 17px #e5091446, 0 2px 12px #000b;
+  opacity: 0.92;
+}
+
+.cine-logo-text {
+  font-size: 2.23rem;
+  font-weight: 800;
+  letter-spacing: 0.025em;
+  color: var(--text-color);
+  filter: drop-shadow(0 7px 24px #e509143f);
+  text-shadow: 0 2px 18px #e5091442, 0 1.8px 12px #18181c77;
+  transition: color 0.15s;
+  user-select: none;
+  line-height: 1.2;
+}
+.cine-logo-text span {
+  /* Only the 'Scope' part is red accent - handled inline style in JSX */
+  font-weight: 840;
+  letter-spacing: -0.02em;
 }
 main {
   padding-top: 70px;

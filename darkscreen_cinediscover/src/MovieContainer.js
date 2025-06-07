@@ -285,27 +285,6 @@ function MovieContainer({ watchlist, setWatchlist }) {
               }
             }}
           />
-          <button
-            className="btn search-btn"
-            aria-label="Start search"
-            title="Search"
-            type="button"
-            style={{
-              marginLeft: "6px",
-              padding: "0.53em 1.22em",
-              display: "inline-flex",
-              alignItems: "center",
-              fontWeight: 700,
-              fontSize: "1.04em",
-              borderRadius: "6px",
-              height: "41px",
-              minWidth: "unset"
-            }}
-            onClick={() => setDebouncedQuery(query.trim())}
-          >
-            <span className="search-btn-icon" aria-hidden="true" style={{ marginRight: "0.2em" }}>🔍</span>
-            <span className="search-btn-label" style={{ display: "none" }}>Search</span>
-          </button>
         </div>
         <div style={{
           display: "inline-flex",

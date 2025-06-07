@@ -1,6 +1,8 @@
 import React from 'react';
 import './App.css';
+import MovieContainer from './MovieContainer';
 
+// PUBLIC_INTERFACE
 function App() {
   return (
     <div className="app">
@@ -14,21 +16,9 @@ function App() {
           </div>
         </div>
       </nav>
-
       <main>
-        <div className="container">
-          <div className="hero">
-            <div className="subtitle">AI Workflow Manager Template</div>
-            
-            <h1 className="title">darkscreen_cinediscover</h1>
-            
-            <div className="description">
-              Start building your application.
-            </div>
-            
-            <button className="btn btn-large">Button</button>
-          </div>
-        </div>
+        {/* Integrate main MovieContainer for business logic, replacing old hero */}
+        <MovieContainer />
       </main>
     </div>
   );

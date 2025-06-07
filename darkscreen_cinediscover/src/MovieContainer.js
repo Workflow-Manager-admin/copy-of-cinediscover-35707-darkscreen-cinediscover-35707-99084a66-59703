@@ -3,8 +3,12 @@ import React, { useEffect, useState } from "react";
 /**
  * MovieContainer - Main container component handling movie fetch,
  * loading/offline handling, and localStorage watchlist management.
- * Provides a responsive movie grid with real movie data using OMDb API,
- * loading spinner, and overlays offline/error state as needed.
+ *
+ * Features:
+ *  - Fetch and display movies from OMDb API.
+ *  - Add/remove movies to/from watchlist, persist watchlist in localStorage.
+ *  - Visually distinguish movies in watchlist.
+ *  - Show a loading spinner and handle offline/errors.
  *
  * OMDb API Docs: http://www.omdbapi.com/
  */
@@ -21,7 +25,7 @@ function MovieContainer() {
   // Watchlist state synchronized with localStorage
   const [watchlist, setWatchlist] = useState(() => {
     try {
-      // Get list from localStorage or default to empty
+      // Get list from localStorage or default to empty array
       const saved = window.localStorage.getItem("cine_watchlist");
       return saved ? JSON.parse(saved) : [];
     } catch {
@@ -29,7 +33,7 @@ function MovieContainer() {
     }
   });
 
-  // Set up network state listeners
+  // Listen for online/offline state changes
   useEffect(() => {
     const handleStatus = () => setIsOnline(navigator.onLine);
     window.addEventListener("online", handleStatus);
@@ -40,19 +44,18 @@ function MovieContainer() {
     };
   }, []);
 
-  // Save watchlist to localStorage whenever it changes
+  // Persist watchlist to localStorage on change
   useEffect(() => {
     window.localStorage.setItem("cine_watchlist", JSON.stringify(watchlist));
   }, [watchlist]);
 
-  // Fetch movies from OMDb API (example: popular US movies, since OMDb has no "popular" endpoint, use search terms)
+  // Fetch movies from OMDb API (simulate discovery)
   useEffect(() => {
     let ignore = false;
     async function fetchMovies() {
       setLoading(true);
       setFetchError(null);
-      // Use OMDb API key "thewdb" (public demo) for non-commercial use
-      // OMDb returns 10 results per page for search; use a popular term to simulate discovery
+      // Example query; OMDb API demo key is public
       const OMDB_API_URL = "https://www.omdbapi.com/?apikey=thewdb&s=star&y=2019,2023&type=movie&page=1";
       try {
         if (!navigator.onLine) {
@@ -91,7 +94,7 @@ function MovieContainer() {
     return () => { ignore = true; };
   }, []);
 
-  // Centralized "offline or fetch error" overlay panel
+  // Loading spinner overlay
   if (loading) {
     return (
       <section className="container" style={{ paddingTop: 112 }}>
@@ -119,6 +122,7 @@ function MovieContainer() {
     );
   }
 
+  // Offline overlay, show watchlist (read-only)
   if (fetchError === "offline" || !isOnline) {
     return (
       <section className="container" style={{ paddingTop: 112 }}>
@@ -156,7 +160,7 @@ function MovieContainer() {
             Showing your saved watchlist (read-only if offline).<br />
             Online features are disabled.
           </div>
-          {/* Optionally, render the local watchlist */}
+          {/* Render the local watchlist */}
           {watchlist && watchlist.length > 0 && (
             <div style={{ marginTop: 18, width: "100%" }}>
               <h4 style={{ color: "var(--accent)", marginBottom: 4, marginTop: 12 }}>Watchlist</h4>
@@ -181,8 +185,8 @@ function MovieContainer() {
     );
   }
 
+  // Error overlay (not offline)
   if (fetchError) {
-    // Error unrelated to offline, show message with retry option
     return (
       <section className="container" style={{ paddingTop: 112 }}>
         <div
@@ -222,7 +226,7 @@ function MovieContainer() {
     );
   }
 
-  // Movie grid
+  // Main Movie Grid UI
   return (
     <section className="container" style={{ paddingTop: 112, paddingBottom: 48 }}>
       <h2 style={{ color: "var(--accent)", marginBottom: 24, fontWeight: 700 }}>
@@ -231,17 +235,25 @@ function MovieContainer() {
       <div className="movie-grid" data-testid="movie-grid">
         {movies && movies.length > 0 ? (
           movies.map((movie) => {
-            const inWatchlist = watchlist.find(entry => entry.imdbID === movie.imdbID);
+            // Is this movie in the watchlist?
+            const inWatchlist = watchlist.some(entry => entry.imdbID === movie.imdbID);
             return (
               <div
                 key={movie.imdbID}
-                className="movie-card"
+                className={`movie-card${inWatchlist ? " movie-watchlisted" : ""}`}
                 tabIndex={0}
-                aria-label={`${movie.Title} (${movie.Year})`}
+                aria-label={`${movie.Title} (${movie.Year})${inWatchlist ? " in watchlist" : ""}`}
+                style={{
+                  boxShadow: inWatchlist
+                    ? "0 0 0 2px var(--accent), 0 2px 14px 0 rgba(0,0,0,.22)"
+                    : undefined,
+                  position: "relative",
+                }}
               >
                 <img
                   src={movie.Poster !== "N/A" ? movie.Poster : "https://via.placeholder.com/110x165?text=No+Image"}
                   alt={movie.Poster !== "N/A" ? `${movie.Title} Poster` : "No Image"}
+                  style={inWatchlist ? { filter: "brightness(1.07) saturate(1.25)", border: "2px solid var(--accent)" } : {}}
                 />
                 <div
                   className="movie-title"
@@ -257,11 +269,10 @@ function MovieContainer() {
                     aria-pressed={inWatchlist}
                     onClick={() => {
                       setWatchlist((prev) => {
-                        if (prev.find(item => item.imdbID === movie.imdbID)) {
-                          // Remove
+                        // Remove if in, else add movie to watchlist
+                        if (prev.some(item => item.imdbID === movie.imdbID)) {
                           return prev.filter(item => item.imdbID !== movie.imdbID);
                         }
-                        // Add
                         return [...prev, movie];
                       });
                     }}
@@ -279,6 +290,30 @@ function MovieContainer() {
                     Showtimes
                   </a>
                 </div>
+                {inWatchlist && (
+                  <span
+                    style={{
+                      position: "absolute",
+                      top: 8,
+                      right: 8,
+                      background: "var(--accent)",
+                      color: "#fff",
+                      borderRadius: "50%",
+                      width: 22,
+                      height: 22,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontWeight: 700,
+                      fontSize: 14,
+                      boxShadow: "0 1.5px 6px #e5091445",
+                    }}
+                    title="Watchlisted"
+                    aria-label="In Watchlist"
+                  >
+                    ★
+                  </span>
+                )}
               </div>
             );
           })
@@ -296,7 +331,7 @@ function MovieContainer() {
           </div>
         )}
       </div>
-      {/* Description, maybe hint next features */}
+      {/* Description or upgrade hint */}
       <div
         style={{
           marginTop: 34,

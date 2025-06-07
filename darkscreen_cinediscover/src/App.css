@@ -118,28 +118,44 @@ main {
 
 /* Watchlist Button - visually distinct, accent, right-aligned in navbar */
 .btn-watchlist {
-  background: var(--accent);
+  background: linear-gradient(90deg, var(--accent) 65%, #a50710 110%);
   color: #fff;
   border: none;
-  border-radius: 5px;
-  box-shadow: 0 2px 14px #e5091458, 0 1px 6px #0005;
-  padding: 0.56em 1.5em;
-  margin-left: 20px;
-  font-size: 1.03rem;
+  border-radius: 36px;
+  box-shadow: 0 0 0 4px #e5091412, 0 2px 18px #e5091491, 0 2px 14px #0007;
+  padding: 0.82em 2.2em;
+  margin-left: 24px;
+  font-size: 1.17rem;
   font-family: inherit;
-  font-weight: 700;
-  letter-spacing: 0.015em;
+  font-weight: 800;
+  letter-spacing: 0.028em;
   outline: none;
-  transition: background 0.15s, color 0.14s, box-shadow 0.16s;
-  display: flex;
+  transition:
+    background 0.24s cubic-bezier(.4,0,.2,1),
+    color 0.19s,
+    transform 0.18s,
+    box-shadow 0.21s cubic-bezier(.4,0,.2,1),
+    filter 0.24s;
+  display: inline-flex;
   align-items: center;
-  gap: 0.5em;
+  gap: 0.74em;
+  box-shadow: 0 0 16px 0 #e5091477, 0 2px 20px #e509143c, 0 4px 12px #0004;
+  filter: drop-shadow(0 1.5px 10px #e5091467) brightness(1.08);
+  cursor: pointer;
+  position: relative;
+  z-index: 2;
+  overflow: visible;
+  text-shadow: 0 3px 14px #e509144c, 0 2px 4px #000a;
 }
 
 .btn-watchlist:hover, .btn-watchlist:focus {
-  background: var(--accent-hover);
+  background: linear-gradient(90deg, var(--accent-hover) 65%, #680205 110%);
   color: #fff;
-  box-shadow: 0 4px 24px #e509148a, 0 1.5px 12px #0008;
+  box-shadow: 0 0 0 6px #e509142e, 0 6px 32px #e50914b0, 0 2px 16px #000a;
+  transform: scale(1.045);
+  filter: drop-shadow(0 1.5px 20px #e50914bb) brightness(1.10);
+  outline: none;
+  text-shadow: 0 2px 12px #e5091499, 0 2px 7px #0009;
 }
 
 .btn:active,

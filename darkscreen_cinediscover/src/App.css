@@ -1,15 +1,18 @@
 :root {
-  --base-light: #00ffff;
-  --base-dark: #00008b;
-  --text-color: #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.7);
-  --border-color: rgba(255, 255, 255, 0.1);
+  --primary-bg: #18181c;
+  --secondary-bg: #23232a;
+  --accent: #e50914;
+  --text-color: #fff;
+  --text-secondary: rgba(255,255,255,0.77);
+  --border-color: rgba(255,255,255,0.07);
+  --card-bg: #222228;
+  --button-hover: #a40610;
 }
 
 body {
   margin: 0;
   font-family: 'Inter', 'Roboto', 'Helvetica', 'Arial', sans-serif;
-  background-color: var(--base-dark);
+  background-color: var(--primary-bg);
   color: var(--text-color);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -19,10 +22,11 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  background: var(--primary-bg);
 }
 
 .navbar {
-  background-color: var(--base-dark);
+  background-color: var(--secondary-bg);
   padding: 16px;
   display: flex;
   align-items: center;
@@ -37,14 +41,16 @@ body {
 
 .logo {
   font-size: 1.25rem;
-  font-weight: 600;
+  font-weight: 700;
   display: flex;
   align-items: center;
   gap: 8px;
+  letter-spacing: 0.5px;
+  color: var(--text-color);
 }
 
 .logo-symbol {
-  color: var(--base-light);
+  color: var(--accent);
 }
 
 .container {
@@ -66,43 +72,55 @@ body {
 }
 
 .subtitle {
-  color: var(--base-light);
+  color: var(--accent);
   font-weight: 500;
   font-size: 1.1rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
 }
 
 .title {
   font-size: 3.5rem;
-  font-weight: 600;
-  line-height: 1.2;
+  font-weight: 700;
+  line-height: 1.13;
   margin: 0;
+  color: var(--text-color);
 }
 
 .description {
   font-size: 1.1rem;
-  line-height: 1.5;
+  line-height: 1.55;
   color: var(--text-secondary);
   max-width: 600px;
   margin-bottom: 16px;
 }
 
 .btn {
-  background-color: var(--base-light);
-  color: white;
+  background-color: var(--accent);
+  color: var(--text-color);
   border: none;
   border-radius: 4px;
   padding: 10px 20px;
   font-size: 1rem;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  box-shadow: 0 1px 4px 0 rgba(0,0,0,.13);
+  transition: background 0.18s, box-shadow 0.18s, color 0.15s;
+  letter-spacing: 0.03em;
+  outline: none;
+}
+
+.btn:focus, .btn:active {
+  box-shadow: 0 0 0 2px var(--button-hover), 0 1px 4px 0 rgba(0,0,0,.13);
 }
 
 .btn:hover {
-  background-color: #7691ff;
+  background-color: var(--button-hover);
+  color: #fff;
 }
 
 .btn-large {
   padding: 12px 24px;
   font-size: 1.1rem;
 }
+

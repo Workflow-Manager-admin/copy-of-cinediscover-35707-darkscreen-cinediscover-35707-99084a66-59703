@@ -1,0 +1,4 @@
+{
+    "command": "npm install && npx tsc --noEmit && npm test -- --ci",
+    "working_directory": "/home/kavia/workspace/code-generation/darkscreen-cinediscover-35707-99084a66/darkscreen_cinediscover"
+}

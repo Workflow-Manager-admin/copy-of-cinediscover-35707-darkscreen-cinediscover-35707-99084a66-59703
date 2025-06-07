@@ -8,6 +8,7 @@ import React, { useEffect, useState } from "react";
  *
  * OMDb API Docs: http://www.omdbapi.com/
  */
+// PUBLIC_INTERFACE
 function MovieContainer() {
   // Movie list fetched from remote API
   const [movies, setMovies] = useState([]);
@@ -109,23 +110,11 @@ function MovieContainer() {
               display: "inline-block",
               width: 44,
               height: 44,
-              border: "4px solid var(--accent)",
-              borderTop: "4px solid transparent",
-              borderRadius: "50%",
-              animation: "spin 1.1s linear infinite",
               marginRight: 20,
             }}
           />
           <span>Loading movies…</span>
         </div>
-        <style>
-          {`
-            @keyframes spin {
-              0% { transform: rotate(0deg);}
-              100% { transform: rotate(360deg);}
-            }
-          `}
-        </style>
       </section>
     );
   }
@@ -239,115 +228,60 @@ function MovieContainer() {
       <h2 style={{ color: "var(--accent)", marginBottom: 24, fontWeight: 700 }}>
         Discover Movies
       </h2>
-      <div
-        className="movie-grid"
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
-          gap: 28,
-        }}
-        data-testid="movie-grid"
-      >
+      <div className="movie-grid" data-testid="movie-grid">
         {movies && movies.length > 0 ? (
-          movies.map((movie) => (
-            <div
-              key={movie.imdbID}
-              className="movie-card"
-              style={{
-                background: "var(--card-bg)",
-                borderRadius: 12,
-                minHeight: 280,
-                boxShadow: "0 2px 20px 0 #18181c33",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                padding: 20,
-                textAlign: "center"
-              }}
-            >
-              <img
-                src={movie.Poster !== "N/A" ? movie.Poster : "https://via.placeholder.com/110x165?text=No+Image"}
-                alt={`${movie.Title} Poster`}
-                style={{
-                  width: 110,
-                  height: 165,
-                  objectFit: "cover",
-                  borderRadius: 10,
-                  marginBottom: 18,
-                  background: "#282838"
-                }}
-              />
+          movies.map((movie) => {
+            const inWatchlist = watchlist.find(entry => entry.imdbID === movie.imdbID);
+            return (
               <div
-                style={{
-                  fontWeight: 600,
-                  fontSize: 15,
-                  color: "#fff",
-                  marginBottom: 6,
-                  whiteSpace: "nowrap",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  maxWidth: 130,
-                }}
-                title={movie.Title}
+                key={movie.imdbID}
+                className="movie-card"
+                tabIndex={0}
+                aria-label={`${movie.Title} (${movie.Year})`}
               >
-                {movie.Title}
-              </div>
-              <div style={{
-                fontSize: 13,
-                color: "var(--text-secondary)",
-                marginBottom: 12
-              }}>{movie.Year}</div>
-              {/* Watchlist and Showtimes buttons stub (to be implemented in next subtasks) */}
-              <div style={{ display: "flex", gap: 8, marginTop: "auto" }}>
-                <button
-                  className="btn"
-                  style={{
-                    background: watchlist.find(entry => entry.imdbID === movie.imdbID) ? "var(--accent)" : "#282828",
-                    color: "#fff",
-                    fontWeight: 500,
-                    fontSize: 13,
-                    border: watchlist.find(entry => entry.imdbID === movie.imdbID) ? "2px solid #e50914" : "1px solid #444",
-                    borderRadius: 4,
-                    padding: "7px 12px",
-                    cursor: "pointer"
-                  }}
-                  title={watchlist.find(entry => entry.imdbID === movie.imdbID) ? "Remove from Watchlist" : "Add to Watchlist"}
-                  onClick={() => {
-                    setWatchlist((prev) => {
-                      if (prev.find(item => item.imdbID === movie.imdbID)) {
-                        // Remove
-                        return prev.filter(item => item.imdbID !== movie.imdbID);
-                      }
-                      // Add
-                      return [...prev, movie];
-                    });
-                  }}
+                <img
+                  src={movie.Poster !== "N/A" ? movie.Poster : "https://via.placeholder.com/110x165?text=No+Image"}
+                  alt={movie.Poster !== "N/A" ? `${movie.Title} Poster` : "No Image"}
+                />
+                <div
+                  className="movie-title"
+                  title={movie.Title}
                 >
-                  {watchlist.find(entry => entry.imdbID === movie.imdbID) ? "✓ In Watchlist" : "+ Watchlist"}
-                </button>
-                <a
-                  className="btn"
-                  style={{
-                    background: "#23232a",
-                    color: "var(--accent)",
-                    fontWeight: 600,
-                    fontSize: 13,
-                    border: "1px solid var(--accent)",
-                    borderRadius: 4,
-                    padding: "7px 12px",
-                    textDecoration: "none",
-                    display: "inline-block"
-                  }}
-                  href={`https://www.google.com/search?q=${encodeURIComponent(movie.Title + " showtimes near me")}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  title="Search showtimes"
-                >
-                  Showtimes
-                </a>
+                  {movie.Title}
+                </div>
+                <div className="movie-year">{movie.Year}</div>
+                <div className="movie-card-actions">
+                  <button
+                    className={`btn${inWatchlist ? " watchlist-active" : ""}`}
+                    title={inWatchlist ? "Remove from Watchlist" : "Add to Watchlist"}
+                    aria-pressed={inWatchlist}
+                    onClick={() => {
+                      setWatchlist((prev) => {
+                        if (prev.find(item => item.imdbID === movie.imdbID)) {
+                          // Remove
+                          return prev.filter(item => item.imdbID !== movie.imdbID);
+                        }
+                        // Add
+                        return [...prev, movie];
+                      });
+                    }}
+                  >
+                    {inWatchlist ? "✓ In Watchlist" : "+ Watchlist"}
+                  </button>
+                  <a
+                    className="btn showtimes"
+                    href={`https://www.google.com/search?q=${encodeURIComponent(movie.Title + " showtimes near me")}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="Search showtimes"
+                    tabIndex={0}
+                  >
+                    Showtimes
+                  </a>
+                </div>
               </div>
-            </div>
-          ))
+            );
+          })
         ) : (
           // No movies fallback
           <div style={{

@@ -115,6 +115,33 @@ main {
   cursor: pointer;
   box-shadow: 0 1px 8px #e5091425;
 }
+
+/* Watchlist Button - visually distinct, accent, right-aligned in navbar */
+.btn-watchlist {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0 2px 14px #e5091458, 0 1px 6px #0005;
+  padding: 0.56em 1.5em;
+  margin-left: 20px;
+  font-size: 1.03rem;
+  font-family: inherit;
+  font-weight: 700;
+  letter-spacing: 0.015em;
+  outline: none;
+  transition: background 0.15s, color 0.14s, box-shadow 0.16s;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+
+.btn-watchlist:hover, .btn-watchlist:focus {
+  background: var(--accent-hover);
+  color: #fff;
+  box-shadow: 0 4px 24px #e509148a, 0 1.5px 12px #0008;
+}
+
 .btn:active,
 .btn:focus {
   box-shadow: 0 2px 14px #e5091439;

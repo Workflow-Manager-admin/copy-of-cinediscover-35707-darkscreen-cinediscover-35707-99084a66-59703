@@ -98,24 +98,14 @@ function MovieContainer() {
   if (loading) {
     return (
       <section className="container" style={{ paddingTop: 112 }}>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            minHeight: 300,
-            color: "var(--accent)",
-          }}
-        >
-          <span
-            className="spinner"
-            style={{
-              display: "inline-block",
-              width: 44,
-              height: 44,
-              marginRight: 20,
-            }}
-          />
+        <div style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: 230,
+          color: "var(--accent)",
+        }}>
+          <span className="spinner" style={{ marginRight: 20 }} />
           <span>Loading movies…</span>
         </div>
       </section>
@@ -126,54 +116,21 @@ function MovieContainer() {
   if (fetchError === "offline" || !isOnline) {
     return (
       <section className="container" style={{ paddingTop: 112 }}>
-        <div
-          style={{
-            background: "var(--card-bg)",
-            borderRadius: 8,
-            padding: 36,
-            margin: "42px auto 0",
-            maxWidth: 440,
-            boxShadow: "0 2px 14px 0 rgba(0,0,0,.19)",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            border: "2px solid var(--accent)",
-          }}
-        >
-          <span
-            role="img"
-            aria-label="offline"
-            style={{
-              fontSize: 44,
-              color: "var(--accent)",
-              marginBottom: 14,
-              filter: "drop-shadow(0 3px 10px #e509144c)",
-            }}
-          >
-            ⚡
-          </span>
-          <h2 style={{ color: "var(--accent)", margin: 0 }}>
-            Offline Mode
-          </h2>
-          <div style={{ color: "var(--text-secondary)", marginTop: 14, textAlign: "center" }}>
+        <div className="offline-box">
+          <span className="offline-icon" role="img" aria-label="offline">⚡</span>
+          <div className="offline-title">Offline Mode</div>
+          <div className="offline-desc">
             You are currently offline or unable to load movies.<br />
             Showing your saved watchlist (read-only if offline).<br />
             Online features are disabled.
           </div>
           {/* Render the local watchlist */}
           {watchlist && watchlist.length > 0 && (
-            <div style={{ marginTop: 18, width: "100%" }}>
+            <div className="watchlist-list">
               <h4 style={{ color: "var(--accent)", marginBottom: 4, marginTop: 12 }}>Watchlist</h4>
-              <ul style={{padding:0, margin:0, listStyle:"none", maxHeight:180, overflow:"auto"}}>
+              <ul>
                 {watchlist.map((movie, idx) => (
-                  <li key={movie.imdbID || idx} style={{
-                    marginBottom: 10,
-                    background: "#23232a",
-                    borderRadius: 6,
-                    padding: "8px 12px",
-                    color: "#fff",
-                    fontSize: 15,
-                  }}>
+                  <li key={movie.imdbID || idx}>
                     {(movie.Title || movie) + (movie.Year ? ` (${movie.Year})` : "")}
                   </li>
                 ))}
@@ -189,38 +146,10 @@ function MovieContainer() {
   if (fetchError) {
     return (
       <section className="container" style={{ paddingTop: 112 }}>
-        <div
-          style={{
-            background: "var(--card-bg)",
-            borderRadius: 8,
-            padding: 36,
-            margin: "42px auto 0",
-            maxWidth: 440,
-            boxShadow: "0 2px 14px 0 rgba(0,0,0,.19)",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            border: "2px solid var(--accent)",
-          }}
-        >
-          <span
-            role="img"
-            aria-label="error"
-            style={{
-              fontSize: 44,
-              color: "var(--accent)",
-              marginBottom: 14,
-              filter: "drop-shadow(0 3px 10px #e509144c)",
-            }}
-          >
-            ⚠️
-          </span>
-          <h2 style={{ color: "var(--accent)", margin: 0 }}>
-            Could not fetch movies
-          </h2>
-          <div style={{ color: "var(--text-secondary)", marginTop: 14, textAlign: "center" }}>
-            {fetchError}
-          </div>
+        <div className="error-box">
+          <span className="error-icon" role="img" aria-label="error">⚠️</span>
+          <div className="error-title">Could not fetch movies</div>
+          <div className="error-desc">{fetchError}</div>
         </div>
       </section>
     );
@@ -243,22 +172,13 @@ function MovieContainer() {
                 className={`movie-card${inWatchlist ? " movie-watchlisted" : ""}`}
                 tabIndex={0}
                 aria-label={`${movie.Title} (${movie.Year})${inWatchlist ? " in watchlist" : ""}`}
-                style={{
-                  boxShadow: inWatchlist
-                    ? "0 0 0 2px var(--accent), 0 2px 14px 0 rgba(0,0,0,.22)"
-                    : undefined,
-                  position: "relative",
-                }}
               >
                 <img
                   src={movie.Poster !== "N/A" ? movie.Poster : "https://via.placeholder.com/110x165?text=No+Image"}
                   alt={movie.Poster !== "N/A" ? `${movie.Title} Poster` : "No Image"}
-                  style={inWatchlist ? { filter: "brightness(1.07) saturate(1.25)", border: "2px solid var(--accent)" } : {}}
+                  className={inWatchlist ? "movie-watchlisted-img" : ""}
                 />
-                <div
-                  className="movie-title"
-                  title={movie.Title}
-                >
+                <div className="movie-title" title={movie.Title}>
                   {movie.Title}
                 </div>
                 <div className="movie-year">{movie.Year}</div>
@@ -286,46 +206,13 @@ function MovieContainer() {
                     rel="noopener noreferrer"
                     title="Show showtimes for this movie in Google"
                     tabIndex={0}
-                    style={{
-                      background: "var(--accent)",
-                      color: "#fff",
-                      marginLeft: 8,
-                      border: "none",
-                      fontWeight: 600,
-                      letterSpacing: ".01em",
-                      padding: "0.5em 1.25em",
-                      borderRadius: "5px",
-                      transition: "background .15s",
-                      textDecoration: "none",
-                      boxShadow: "0 2px 10px #e509142b",
-                      outline: "none",
-                      fontSize: 14,
-                      cursor: "pointer"
-                    }}
-                    onMouseOver={e => (e.target.style.background = "#b00610")}
-                    onMouseOut={e => (e.target.style.background = "var(--accent)")}
                   >
                     Showtimes
                   </a>
                 </div>
                 {inWatchlist && (
                   <span
-                    style={{
-                      position: "absolute",
-                      top: 8,
-                      right: 8,
-                      background: "var(--accent)",
-                      color: "#fff",
-                      borderRadius: "50%",
-                      width: 22,
-                      height: 22,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      fontWeight: 700,
-                      fontSize: 14,
-                      boxShadow: "0 1.5px 6px #e5091445",
-                    }}
+                    className="star-badge"
                     title="Watchlisted"
                     aria-label="In Watchlist"
                   >

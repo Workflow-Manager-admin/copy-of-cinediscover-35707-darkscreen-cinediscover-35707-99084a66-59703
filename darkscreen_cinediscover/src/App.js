@@ -33,7 +33,15 @@ function App() {
 
   return (
     <div className="app">
-      {/* Background image removed per request; UI falls back to dark theme */}
+      {/* Subtle background image art: does not cover main UI, always behind content */}
+      <img
+        src={require('./backgro.jpg')}
+        alt=""
+        className="app-bg-art"
+        aria-hidden="true"
+        draggable={false}
+        tabIndex={-1}
+      />
       <nav className="navbar cine-navbar">
         <div className="container" style={{ position: 'relative', zIndex: 2 }}>
           <div 

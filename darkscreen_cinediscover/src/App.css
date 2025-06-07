@@ -21,11 +21,47 @@ body,
   position: relative;
 }
 
-/* (Background image and .app-bg-art styles removed; app now uses plain dark theme background) */
+/* Subtle anchored background image art - non-intrusive, does not cover content */
+.app-bg-art {
+  position: fixed;
+  pointer-events: none;
+  z-index: 0;
+  right: 0;
+  bottom: 0;
+  width: 340px;
+  max-width: 68vw;
+  height: auto;
+  min-width: 150px;
+  opacity: 0.17;
+  filter: blur(3px) saturate(1.1) brightness(0.93);
+  transition: opacity .25s;
+  user-select: none;
+}
+
+@media (max-width: 700px) {
+  .app-bg-art {
+    width: 168px;
+    max-width: 52vw;
+    min-width: 90px;
+    opacity: 0.11;
+    filter: blur(4px) saturate(1) brightness(0.8);
+  }
+}
+@media (max-width: 480px) {
+  .app-bg-art {
+    width: 100px;
+    opacity: 0.09;
+    filter: blur(5px) saturate(1) brightness(0.77);
+  }
+}
+
+/* Keep main UI and overlay content above, position relative/z-index:2 applied in App.js */
 .app {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  position: relative;
+  z-index: 1;
 }
 
 /* --- CineScope Footer Styling --- */

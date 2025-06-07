@@ -281,6 +281,43 @@ main {
   background: var(--accent);
   color: #fff;
 }
+
+/* Sort Button - visually similar to .btn but smaller and in-line */
+.sort-btn {
+  padding: 0.35em 0.85em;
+  font-size: 14px;
+  min-width: 0;
+  border-radius: 5px;
+  margin-left: 3px;
+  margin-right: 2px;
+  line-height: 1.1;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  font-weight: 600;
+  height: 30px;
+  vertical-align: middle;
+  transition: background .14s, color .13s, border .13s;
+}
+.sort-btn:active, .sort-btn:focus {
+  background: var(--accent-hover);
+  color: #fff;
+  box-shadow: 0 2px 8px #e5091430;
+  outline: 1.5px solid var(--accent);
+}
+.sort-btn:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* Responsive: Stack sort/clear buttons below input on small screens */
+@media (max-width: 540px) {
+  .sort-btn {
+    font-size: 13px;
+    height: 28px;
+    padding: 0.32em 0.7em;
+  }
+}
 .btn.showtimes {
   background: var(--accent);
   color: #fff;

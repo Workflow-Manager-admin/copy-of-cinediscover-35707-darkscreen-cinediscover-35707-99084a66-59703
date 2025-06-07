@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import SortButton from "./SortButton";
 
 /**
  * MovieContainer - Main container component handling movie fetch,
@@ -40,6 +41,8 @@ function MovieContainer({ watchlist, setWatchlist }) {
   const [loading, setLoading] = useState(false);
   // Online/offline browser state
   const [isOnline, setIsOnline] = useState(navigator.onLine);
+  // Sorting state: "asc" or "desc"
+  const [sortDir, setSortDir] = useState("asc");
   // Fetch error or offline state (to trigger offline/error overlay)
   const [fetchError, setFetchError] = useState(null);
 
@@ -111,7 +114,17 @@ function MovieContainer({ watchlist, setWatchlist }) {
           return;
         }
         if (!ignore) {
-          setMovies(data.Search);
+          // ensure movies always sorted by year as per current direction
+          setMovies(prevMovies => {
+            // sorting after fetch for fresh array
+            let moviesArr = Array.isArray(data.Search) ? [...data.Search] : [];
+            if (sortDir === "asc") {
+              moviesArr.sort((a, b) => (parseInt(a.Year) || 0) - (parseInt(b.Year) || 0));
+            } else {
+              moviesArr.sort((a, b) => (parseInt(b.Year) || 0) - (parseInt(a.Year) || 0));
+            }
+            return moviesArr;
+          });
           setLoading(false);
           setIsOnline(true);
         }
@@ -139,7 +152,23 @@ function MovieContainer({ watchlist, setWatchlist }) {
     }
     fetchMovies();
     return () => { ignore = true; };
-  }, [debouncedQuery]);
+  }, [debouncedQuery, sortDir]);
+
+  // Sorting movies whenever sortDir is toggled, for shallow update (needed if only toggling sort)
+  useEffect(() => {
+    setMovies((existingMovies) => {
+      if (!existingMovies || existingMovies.length < 2) return existingMovies;
+      let sorted = [...existingMovies];
+      if (sortDir === "asc") {
+        sorted.sort((a, b) => (parseInt(a.Year) || 0) - (parseInt(b.Year) || 0));
+      } else {
+        sorted.sort((a, b) => (parseInt(b.Year) || 0) - (parseInt(a.Year) || 0));
+      }
+      return sorted;
+    });
+    // deliberately NOT including movies in deps to avoid unwanted double-sorting on new fetch
+    // eslint-disable-next-line
+  }, [sortDir]);
 
   // -- UI Part 1: Loading spinner overlay
   if (loading) {
@@ -213,13 +242,15 @@ function MovieContainer({ watchlist, setWatchlist }) {
       {/* 
         Search input is debounced, and no fetch is triggered on empty/whitespace input.
       */}
-      <div style={{
-        marginBottom: 30,
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        width: "100%",
-      }}>
+      <div
+        style={{
+          marginBottom: 30,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          width: "100%",
+          flexWrap: "wrap"
+        }}>
         <input
           type="text"
           value={query}
@@ -244,15 +275,31 @@ function MovieContainer({ watchlist, setWatchlist }) {
           }}
           onKeyDown={e => { if (e.key === "Escape") setQuery(""); }} // Clear on Esc
         />
-        {query &&
-          <button
-            className="btn"
-            title="Clear search"
-            aria-label="Clear"
-            style={{ marginLeft: 6, padding: "0.53em 1.2em" }}
-            onClick={() => setQuery("")}
-          >Clear</button>
-        }
+        {/* Sort Button and Clear Button are horizontally aligned */}
+        <div style={{
+          display: "inline-flex",
+          alignItems: "center",
+          marginLeft: "3px",
+          gap: "2px"
+        }}>
+          <SortButton
+            direction={sortDir}
+            onToggle={() => setSortDir(sortDir === "asc" ? "desc" : "asc")}
+          />
+          {query &&
+            <button
+              className="btn"
+              title="Clear search"
+              aria-label="Clear"
+              style={{
+                marginLeft: 6,
+                padding: "0.53em 1.2em",
+                fontSize: "15px"
+              }}
+              onClick={() => setQuery("")}
+            >Clear</button>
+          }
+        </div>
       </div>
 
       {/* -- Movies Grid -- */}

@@ -48,6 +48,9 @@ function MovieContainer() {
   // Search query state, default to "star" (legacy) or empty string for blank
   const [query, setQuery] = useState("star");
 
+  // Debounced query state
+  const [debouncedQuery, setDebouncedQuery] = useState(query);
+
   // Listen for online/offline state changes
   useEffect(() => {
     const handleStatus = () => setIsOnline(navigator.onLine);
@@ -59,16 +62,29 @@ function MovieContainer() {
     };
   }, []);
 
+  // Implement debounce for the query (350ms)
+  useEffect(() => {
+    // If query is empty or only whitespace, debounce to empty instantly
+    if (!query.trim()) {
+      setDebouncedQuery("");
+      return;
+    }
+    const handler = setTimeout(() => {
+      setDebouncedQuery(query);
+    }, 350);
+    return () => clearTimeout(handler);
+  }, [query]);
+
   // Persist watchlist to localStorage on change
   useEffect(() => {
     window.localStorage.setItem("cine_watchlist", JSON.stringify(watchlist));
   }, [watchlist]);
 
-  // Fetch movies from OMDb API with dynamic query on query change
+  // Fetch movies from OMDb API with debounced query
   useEffect(() => {
     let ignore = false;
-    // Only search if query is not just empty or whitespace
-    if (!query.trim()) {
+    // Only search if debouncedQuery is not just empty or whitespace
+    if (!debouncedQuery.trim()) {
       setMovies([]);
       setLoading(false);
       setFetchError(null);
@@ -78,7 +94,7 @@ function MovieContainer() {
       setLoading(true);
       setFetchError(null);
       // Interpolate API URL with query
-      const OMDB_API_URL = `https://www.omdbapi.com/?apikey=thewdb&s=${encodeURIComponent(query)}&type=movie&page=1`;
+      const OMDB_API_URL = `https://www.omdbapi.com/?apikey=thewdb&s=${encodeURIComponent(debouncedQuery)}&type=movie&page=1`;
       try {
         if (!navigator.onLine) {
           setIsOnline(false);
@@ -113,7 +129,16 @@ function MovieContainer() {
             setFetchError("offline");
             setIsOnline(false);
           } else {
-            setFetchError(err.message || "Error fetching movies.");
+            // Improve error presentation on empty or nonsense queries
+            if (
+              err &&
+              (debouncedQuery.trim() === "" ||
+                err.message.toLowerCase().includes("incorrect imdb id"))
+            ) {
+              setFetchError(null); // No error for empty/nonsense 
+            } else {
+              setFetchError(err.message || "Error fetching movies.");
+            }
             setIsOnline(true);
           }
         }
@@ -121,7 +146,7 @@ function MovieContainer() {
     }
     fetchMovies();
     return () => { ignore = true; };
-  }, [query]);
+  }, [debouncedQuery]);
 
   // -- UI Part 1: Loading spinner overlay
   if (loading) {
@@ -192,6 +217,9 @@ function MovieContainer() {
       </h2>
 
       {/* -- Search Input UI -- */}
+      {/* 
+        Search input is debounced, and no fetch is triggered on empty/whitespace input.
+      */}
       <div style={{
         marginBottom: 30,
         display: "flex",

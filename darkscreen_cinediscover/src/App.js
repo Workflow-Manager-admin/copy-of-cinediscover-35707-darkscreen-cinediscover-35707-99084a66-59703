@@ -33,25 +33,26 @@ function App() {
               title="View your saved Watchlist"
               // For future: Add onClick to show modal/page
               style={{
-                marginLeft: 0,
-                minWidth: 132,
-                fontWeight: 800,
-                border: "none"
+                marginLeft: 8,
+                minWidth: 90,
+                fontWeight: 700,
+                border: "none",
+                boxShadow: "none",
+                padding: "0.36em 1.05em",
+                height: 34,
+                lineHeight: 1.2
               }}
-              disabled={false} // Future: Conditionally active/inactive if needed
+              disabled={false}
             >
               <span role="img" aria-hidden="true" style={{
-                marginRight: 10,
-                fontSize: "1.36em",
-                verticalAlign: "middle",
-                filter: "drop-shadow(0 2.5px 18px #fff2), drop-shadow(0 1.5px 15px #e50914bb)"
+                marginRight: 7,
+                fontSize: "1.05em",
+                verticalAlign: "middle"
               }}>⭐</span>
               <span style={{
-                fontWeight: 830,
-                fontSize: "1.09em",
-                letterSpacing: "0.03em",
-                paddingTop: 2,
-                paddingBottom: 2
+                fontWeight: 700,
+                fontSize: "1em",
+                letterSpacing: "0.01em"
               }}>
                 View Watchlist
               </span>

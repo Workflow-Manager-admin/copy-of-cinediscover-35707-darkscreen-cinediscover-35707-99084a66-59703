@@ -10,7 +10,18 @@ import "./App.css";
  * - onClose: () => void (called on ESC, click outside, or close btn)
  * - watchlist: array of movie objects {Title, Year, Poster, imdbID}
  */
-export default function WatchlistModal({ open, onClose, watchlist }) {
+/**
+ * WatchlistModal component displays the user's watchlist in a modal dialog.
+ * Adds ability to remove movies directly from the modal via a small remove button per entry.
+ * 
+ * Props:
+ * - open: boolean - controls modal visibility
+ * - onClose: function - closes the modal
+ * - watchlist: array - movie objects
+ * - setWatchlist: function - update watchlist (removal)
+ */
+// PUBLIC_INTERFACE
+export default function WatchlistModal({ open, onClose, watchlist, setWatchlist }) {
   const overlayRef = useRef();
 
   // Close on Escape key
@@ -79,6 +90,20 @@ export default function WatchlistModal({ open, onClose, watchlist }) {
                     {movie.Year}
                   </span>
                 </div>
+                <button
+                  className="remove-watchlist-btn"
+                  aria-label={`Remove ${movie.Title} from watchlist`}
+                  title="Remove from Watchlist"
+                  onClick={() => {
+                    setWatchlist((prev) =>
+                      prev.filter((m) => m.imdbID !== movie.imdbID)
+                    );
+                  }}
+                  tabIndex={0}
+                  type="button"
+                >
+                  ×
+                </button>
               </div>
             ))}
           </div>

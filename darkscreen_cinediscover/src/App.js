@@ -116,6 +116,7 @@ function App() {
           open={modalOpen}
           onClose={() => setModalOpen(false)}
           watchlist={watchlist}
+          setWatchlist={setWatchlist}
         />
         {/* Integrate main MovieContainer for business logic, replacing old hero */}
         <MovieContainer watchlist={watchlist} setWatchlist={setWatchlist} />

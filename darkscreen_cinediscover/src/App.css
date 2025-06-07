@@ -122,7 +122,6 @@ main {
   color: #fff;
   border: none;
   border-radius: 22px;
-  box-shadow: none;
   padding: 0.36em 1.05em;
   margin-left: 10px;
   font-size: 0.98rem;
@@ -130,15 +129,10 @@ main {
   font-weight: 700;
   letter-spacing: 0.019em;
   outline: none;
-  transition:
-    background 0.16s cubic-bezier(.4,0,.2,1),
-    color 0.17s,
-    transform 0.14s;
   display: inline-flex;
   align-items: center;
   gap: 0.55em;
   filter: none;
-  box-shadow: none;
   cursor: pointer;
   position: relative;
   z-index: 2;
@@ -146,14 +140,21 @@ main {
   text-shadow: none;
   min-height: 32px;
   min-width: 90px;
+  /* Enhanced glow/shadow and transitions */
+  box-shadow: 0 1px 12px 0 #e5091455, 0 0.5px 2px 0 #e509141e;
+  transition:
+    box-shadow 0.28s cubic-bezier(.39,.15,.57,1.03),
+    background 0.19s cubic-bezier(.56,.03,.58,1),
+    color 0.16s,
+    transform 0.16s;
 }
 
 .btn-watchlist:hover,
 .btn-watchlist:focus {
   background: var(--accent-hover);
   color: #fff;
-  box-shadow: none;
-  transform: scale(1.045);
+  box-shadow: 0 0 12px 5px #e50914b5, 0 2px 16px #e5091477, 0 5px 24px 0 #e509143f;
+  transform: scale(1.07);
   outline: none;
   text-shadow: none;
 }

@@ -44,11 +44,6 @@ function App() {
               }}
               disabled={false}
             >
-              <span role="img" aria-hidden="true" style={{
-                marginRight: 7,
-                fontSize: "1.05em",
-                verticalAlign: "middle"
-              }}>⭐</span>
               <span style={{
                 fontWeight: 700,
                 fontSize: "1em",

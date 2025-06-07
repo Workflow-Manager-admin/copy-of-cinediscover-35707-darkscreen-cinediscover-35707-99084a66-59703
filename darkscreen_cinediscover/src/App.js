@@ -33,7 +33,8 @@ function App() {
 
   return (
     <div className="app">
-      {/* Subtle background for upper 40%: absolutely layered behind all UI */}
+      {/* Subtle background for upper 45%: absolutely layered behind all UI. 
+          Increased coverage and visibility per design update. */}
       <div
         className="cine-bg-top"
         aria-hidden="true"

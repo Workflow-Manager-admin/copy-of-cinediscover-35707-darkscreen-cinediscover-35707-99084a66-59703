@@ -2,9 +2,9 @@
 > react-kavia@0.1.0 start
 > react-scripts start
 
-(node:60584) [DEP_WEBPACK_DEV_SERVER_ON_AFTER_SETUP_MIDDLEWARE] DeprecationWarning: 'onAfterSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
+(node:76342) [DEP_WEBPACK_DEV_SERVER_ON_AFTER_SETUP_MIDDLEWARE] DeprecationWarning: 'onAfterSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:60584) [DEP_WEBPACK_DEV_SERVER_ON_BEFORE_SETUP_MIDDLEWARE] DeprecationWarning: 'onBeforeSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
+(node:76342) [DEP_WEBPACK_DEV_SERVER_ON_BEFORE_SETUP_MIDDLEWARE] DeprecationWarning: 'onBeforeSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
 Starting the development server...
 
 Compiled successfully!
@@ -21,14 +21,6 @@ webpack compiled successfully
 Compiling...
 Compiled successfully!
 webpack compiled successfully
-Compiling...
-Failed to compile.
-
-Module not found: Error: Can't resolve './20250607_151420_backgrn.jpg' in '/home/kavia/workspace/code-generation/darkscreen-cinediscover-35707-99084a66/darkscreen_cinediscover/src'
-ERROR in ./src/App.js 7:0-55
-Module not found: Error: Can't resolve './20250607_151420_backgrn.jpg' in '/home/kavia/workspace/code-generation/darkscreen-cinediscover-35707-99084a66/darkscreen_cinediscover/src'
-
-webpack compiled with 1 error
 Compiling...
 Compiled successfully!
 webpack compiled successfully

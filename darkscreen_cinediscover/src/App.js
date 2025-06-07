@@ -7,16 +7,37 @@ import backgrnImg from './20250607_151420_backgrn.jpg';
 function App() {
   return (
     <div className="app">
-      {/* Subtle background image, visually unobtrusive */}
+      {/* Ensure background image is rendered and never blocks content */}
       <img
         src={backgrnImg}
         alt=""
         className="app-bg-art"
         draggable="false"
         aria-hidden="true"
+        tabIndex={-1}
+        style={{
+          pointerEvents: "none",
+          position: "fixed",
+          right: 0,
+          bottom: 0,
+          width: "47vw",
+          maxWidth: 600,
+          minWidth: 240,
+          height: "auto",
+          zIndex: 0,
+          opacity: 0.17, // Slightly less prominent
+          filter: "blur(13px) saturate(1.17) grayscale(0.17)",
+          maskImage:
+            "linear-gradient(110deg, transparent 3%, #000 30%, #000 100%)",
+          WebkitMaskImage:
+            "linear-gradient(110deg, transparent 3%, #000 30%, #000 100%)",
+          transition: "opacity 0.35s",
+          background: "none",
+          userSelect: "none",
+        }}
       />
       <nav className="navbar cine-navbar">
-        <div className="container">
+        <div className="container" style={{ position: 'relative', zIndex: 2 }}>
           <div 
             style={{ 
               width: '100%', 
@@ -40,7 +61,6 @@ function App() {
               aria-label="View Watchlist"
               tabIndex={0}
               title="View your saved Watchlist"
-              // For future: Add onClick to show modal/page
               style={{
                 marginLeft: 8,
                 minWidth: 90,
@@ -64,7 +84,7 @@ function App() {
           </div>
         </div>
       </nav>
-      <main>
+      <main style={{ position: "relative", zIndex: 2 }}>
         {/* Integrate main MovieContainer for business logic, replacing old hero */}
         <MovieContainer />
       </main>

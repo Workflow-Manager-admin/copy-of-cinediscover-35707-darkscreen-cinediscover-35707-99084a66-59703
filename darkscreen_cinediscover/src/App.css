@@ -13,12 +13,85 @@
   --card-radius: 10px;
   --movie-grid-gap: 1.5rem;
 }
+
+/* ======== Modern upper background style for subtle 40% fill ======== */
+.cine-bg-top {
+  position: fixed;
+  left: 0; right: 0; top: 0;
+  width: 100vw;
+  height: 40vh;
+  min-height: 180px;
+  max-height: 400px;
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+  display: block;
+  overflow: hidden;
+}
+.cine-bg-img {
+  width: 100vw;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  position: absolute;
+  top: 0; left: 0;
+  z-index: 1;
+  opacity: 0.54;
+  filter: blur(9px) brightness(0.77) saturate(1.15);
+  transition: opacity 0.32s, filter 0.33s;
+  pointer-events: none;
+  user-select: none;
+}
+/* Top darkening overlay to blend into content */
+.cine-bg-overlay {
+  position: absolute;
+  left: 0; right: 0;
+  top: 0; bottom: 0;
+  width: 100vw; height: 100%;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(15,13,23,0.48) 0%, rgba(24,24,28,0.78) 64%, rgba(24,24,28,1) 100%);
+  /* Partial boost for accessibility and blend with content */
+  border-bottom: 1.5px solid var(--border-color, rgba(255,255,255,0.06));
+  opacity: 0.89;
+  transition: opacity 0.23s;
+}
+
+/* Responsive adjustments for background image */
+@media (max-width: 780px) {
+  .cine-bg-top {
+    min-height: 96px;
+    max-height: 190px;
+    height: 38vw;
+  }
+  .cine-bg-img {
+    filter: blur(11px) brightness(0.8) saturate(1.02);
+    opacity: 0.41;
+  }
+  .cine-bg-overlay {
+    opacity: 0.98;
+  }
+}
+@media (max-width: 520px) {
+  .cine-bg-top {
+    min-height: 60px;
+    max-height: 104px;
+    height: 32vw;
+  }
+  .cine-bg-img {
+    filter: blur(13px) brightness(0.75) saturate(0.94);
+    opacity: 0.29;
+  }
+}
+
+/* Make sure main app UI stays above background */
 body,
 .app {
   background: var(--primary-bg);
   color: var(--text-color);
   min-height: 100vh;
   position: relative;
+  z-index: 1;
 }
 
 /* Subtle anchored background image art - non-intrusive, does not cover content */

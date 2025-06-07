@@ -33,15 +33,21 @@ function App() {
 
   return (
     <div className="app">
-      {/* Subtle background image art: does not cover main UI, always behind content */}
-      <img
-        src={require('./backgro.jpg')}
-        alt=""
-        className="app-bg-art"
+      {/* Subtle background for upper 40%: absolutely layered behind all UI */}
+      <div
+        className="cine-bg-top"
         aria-hidden="true"
-        draggable={false}
         tabIndex={-1}
-      />
+      >
+        <img
+          src={require('./backgro.jpg')}
+          alt=""
+          className="cine-bg-img"
+          draggable={false}
+        />
+        {/* Overlay for reserved blend/opacity/blur */}
+        <div className="cine-bg-overlay" />
+      </div>
       <nav className="navbar cine-navbar">
         <div className="container" style={{ position: 'relative', zIndex: 2 }}>
           <div 

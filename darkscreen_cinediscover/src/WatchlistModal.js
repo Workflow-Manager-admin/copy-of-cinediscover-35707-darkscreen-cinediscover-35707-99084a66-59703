@@ -95,12 +95,12 @@ export default function WatchlistModal({ open, onClose, watchlist, setWatchlist 
                   aria-label={`Remove ${movie.Title} from watchlist`}
                   title="Remove from Watchlist"
                   onClick={() => {
-                    setWatchlist((prev) =>
-                      prev.filter((m) => m.imdbID !== movie.imdbID)
-                    );
+                    setWatchlist((prev) => prev.filter((m) => m.imdbID !== movie.imdbID));
                   }}
                   tabIndex={0}
                   type="button"
+                  // Accessibility: Focus styling is handled by CSS, button is clearly labeled, and tabIndex ensures keyboard access.
+                  // UX: positioned absolutely, does not overlap text or image, styled small and minimalist in App.css
                 >
                   ×
                 </button>

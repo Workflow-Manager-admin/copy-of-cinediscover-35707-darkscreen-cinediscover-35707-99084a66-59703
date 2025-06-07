@@ -1,11 +1,20 @@
 import React from 'react';
 import './App.css';
 import MovieContainer from './MovieContainer';
+import backgrnImg from './20250607_151420_backgrn.jpg';
 
 // PUBLIC_INTERFACE
 function App() {
   return (
     <div className="app">
+      {/* Subtle background image, visually unobtrusive */}
+      <img
+        src={backgrnImg}
+        alt=""
+        className="app-bg-art"
+        draggable="false"
+        aria-hidden="true"
+      />
       <nav className="navbar cine-navbar">
         <div className="container">
           <div 

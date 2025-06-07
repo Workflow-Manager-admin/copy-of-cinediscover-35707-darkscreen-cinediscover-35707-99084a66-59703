@@ -12,12 +12,24 @@ import React, { useEffect, useState } from "react";
  *
  * OMDb API Docs: http://www.omdbapi.com/
  */
+/**
+ * MovieContainer - Main container component handling movie fetch,
+ * loading/offline handling, and localStorage watchlist management.
+ *
+ * Now features:
+ *  - Dynamic search input (real-time OMDb query)
+ *  - Fetching movies from OMDb in response to user search (test key: thewdb)
+ *  - Shows movie Title, Year, and Poster fields as API result
+ *  - UI/UX reflects loading/offline/error state and query result
+ *
+ * OMDb API Docs: http://www.omdbapi.com/
+ */
 // PUBLIC_INTERFACE
 function MovieContainer() {
-  // Movie list fetched from remote API
+  // Movie list fetched from OMDb API
   const [movies, setMovies] = useState([]);
   // Loading state for movie fetch
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   // Online/offline browser state
   const [isOnline, setIsOnline] = useState(navigator.onLine);
   // Fetch error or offline state (to trigger offline/error overlay)
@@ -32,6 +44,9 @@ function MovieContainer() {
       return [];
     }
   });
+
+  // Search query state, default to "star" (legacy) or empty string for blank
+  const [query, setQuery] = useState("star");
 
   // Listen for online/offline state changes
   useEffect(() => {
@@ -49,14 +64,21 @@ function MovieContainer() {
     window.localStorage.setItem("cine_watchlist", JSON.stringify(watchlist));
   }, [watchlist]);
 
-  // Fetch movies from OMDb API (simulate discovery)
+  // Fetch movies from OMDb API with dynamic query on query change
   useEffect(() => {
     let ignore = false;
+    // Only search if query is not just empty or whitespace
+    if (!query.trim()) {
+      setMovies([]);
+      setLoading(false);
+      setFetchError(null);
+      return;
+    }
     async function fetchMovies() {
       setLoading(true);
       setFetchError(null);
-      // Example query; OMDb API demo key is public
-      const OMDB_API_URL = "https://www.omdbapi.com/?apikey=thewdb&s=star&y=2019,2023&type=movie&page=1";
+      // Interpolate API URL with query
+      const OMDB_API_URL = `https://www.omdbapi.com/?apikey=thewdb&s=${encodeURIComponent(query)}&type=movie&page=1`;
       try {
         if (!navigator.onLine) {
           setIsOnline(false);
@@ -70,7 +92,14 @@ function MovieContainer() {
         }
         const data = await resp.json();
         if (!data.Search) {
-          throw new Error("Unable to fetch movies, try again later.");
+          if (data.Error && data.Error.toLowerCase().includes("too many results")) {
+            // Encourage more specific query
+            throw new Error("Too many results. Please narrow your search.");
+          }
+          setMovies([]); // No results but not an error per se
+          setLoading(false);
+          setIsOnline(true);
+          return;
         }
         if (!ignore) {
           setMovies(data.Search);
@@ -84,7 +113,7 @@ function MovieContainer() {
             setFetchError("offline");
             setIsOnline(false);
           } else {
-            setFetchError("Error fetching movies.");
+            setFetchError(err.message || "Error fetching movies.");
             setIsOnline(true);
           }
         }
@@ -92,9 +121,9 @@ function MovieContainer() {
     }
     fetchMovies();
     return () => { ignore = true; };
-  }, []);
+  }, [query]);
 
-  // Loading spinner overlay
+  // -- UI Part 1: Loading spinner overlay
   if (loading) {
     return (
       <section className="container" style={{ paddingTop: 112 }}>
@@ -112,7 +141,7 @@ function MovieContainer() {
     );
   }
 
-  // Offline overlay, show watchlist (read-only)
+  // -- UI Part 2: Offline overlay, show watchlist (read-only)
   if (fetchError === "offline" || !isOnline) {
     return (
       <section className="container" style={{ paddingTop: 112 }}>
@@ -142,7 +171,7 @@ function MovieContainer() {
     );
   }
 
-  // Error overlay (not offline)
+  // -- UI Part 3: Error overlay (not offline)
   if (fetchError) {
     return (
       <section className="container" style={{ paddingTop: 112 }}>
@@ -155,12 +184,57 @@ function MovieContainer() {
     );
   }
 
-  // Main Movie Grid UI
+  // -- UI Part 4: Main Movie Grid UI with search bar
   return (
     <section className="container" style={{ paddingTop: 112, paddingBottom: 48 }}>
-      <h2 style={{ color: "var(--accent)", marginBottom: 24, fontWeight: 700 }}>
+      <h2 style={{ color: "var(--accent)", marginBottom: 12, fontWeight: 700 }}>
         Discover Movies
       </h2>
+
+      {/* -- Search Input UI -- */}
+      <div style={{
+        marginBottom: 30,
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        width: "100%",
+      }}>
+        <input
+          type="text"
+          value={query}
+          onChange={e => setQuery(e.target.value)}
+          placeholder="Search by title…"
+          aria-label="Search movies"
+          autoFocus
+          style={{
+            width: "100%",
+            maxWidth: 340,
+            padding: "0.6em 1.2em",
+            fontSize: "1.07rem",
+            borderRadius: 6,
+            border: "2px solid var(--accent)",
+            outline: "none",
+            background: "var(--card-bg)",
+            color: "var(--text-color)",
+            boxShadow: "0 2px 10px #e5091417",
+            fontWeight: 500,
+            marginRight: 8,
+            letterSpacing: "0.01em"
+          }}
+          onKeyDown={e => { if (e.key === "Escape") setQuery(""); }} // Clear on Esc
+        />
+        {query &&
+          <button
+            className="btn"
+            title="Clear search"
+            aria-label="Clear"
+            style={{ marginLeft: 6, padding: "0.53em 1.2em" }}
+            onClick={() => setQuery("")}
+          >Clear</button>
+        }
+      </div>
+
+      {/* -- Movies Grid -- */}
       <div className="movie-grid" data-testid="movie-grid">
         {movies && movies.length > 0 ? (
           movies.map((movie) => {
@@ -177,6 +251,7 @@ function MovieContainer() {
                   src={movie.Poster !== "N/A" ? movie.Poster : "https://via.placeholder.com/110x165?text=No+Image"}
                   alt={movie.Poster !== "N/A" ? `${movie.Title} Poster` : "No Image"}
                   className={inWatchlist ? "movie-watchlisted-img" : ""}
+                  loading="lazy"
                 />
                 <div className="movie-title" title={movie.Title}>
                   {movie.Title}
@@ -236,7 +311,7 @@ function MovieContainer() {
           </div>
         )}
       </div>
-      {/* Description or upgrade hint */}
+      {/* -- Description/Info -- */}
       <div
         style={{
           marginTop: 34,

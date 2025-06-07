@@ -14,14 +14,14 @@
   --movie-grid-gap: 1.5rem;
 }
 
-/* ======== Modern upper background style for subtle 40% fill ======== */
+/* ======== Modern upper background style for subtle 55% fill ======== */
 .cine-bg-top {
   position: fixed;
   left: 0; right: 0; top: 0;
   width: 100vw;
-  height: 45vh; /* Increased from 40vh to 45vh */
-  min-height: 200px; /* Adjusted min-height to improve visual prominence on large displays */
-  max-height: 480px; /* Allow slightly more room on large screens */
+  height: 55vh; /* Increased fill to 55% of viewport height */
+  min-height: 245px; /* Lifted min-height for increased prominence, especially on large displays */
+  max-height: 600px; /* Allow extra space to match larger 55vh on big screens */
   z-index: 0;
   pointer-events: none;
   user-select: none;
@@ -60,9 +60,9 @@
 /* Responsive adjustments for background image */
 @media (max-width: 780px) {
   .cine-bg-top {
-    min-height: 111px;
-    max-height: 210px;
-    height: 45vw; /* Fill 45% vertically for mobile/tablet as well */
+    min-height: 135px;
+    max-height: 270px;
+    height: 55vw; /* 55% of viewport width (mobile/tablet: vertical fill fractionally increases for taller screens) */
   }
   .cine-bg-img {
     filter: blur(7.3px) brightness(0.86) saturate(1.15) contrast(1.09);
@@ -77,9 +77,9 @@
 
 @media (max-width: 520px) {
   .cine-bg-top {
-    min-height: 74px;
-    max-height: 118px;
-    height: 38vw; /* Increase a bit to stay closer to 45% coverage */
+    min-height: 84px;
+    max-height: 145px;
+    height: 46vw; /* ~46% coverage, a bit more than before for visual match */
   }
   .cine-bg-img {
     filter: blur(8.5px) brightness(0.85) saturate(1.12) contrast(1.07);

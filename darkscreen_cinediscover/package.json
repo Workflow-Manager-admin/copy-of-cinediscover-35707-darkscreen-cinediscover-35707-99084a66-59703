@@ -29,6 +29,7 @@
     ]
   },
   "devDependencies": {
-    "cross-env": "^7.0.3"
+    "cross-env": "^7.0.3",
+    "html-webpack-plugin": "^5.5.0"
   }
 }

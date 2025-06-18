@@ -220,6 +220,77 @@ export default function LoginModal({ open, onClose }) {
           }}
           tabIndex={0}
           title="Continue with Google (UI only)"
+          onClick={() => {
+            // PUBLIC_INTERFACE
+            // Trigger Google OAuth popup for account chooser
+
+            // TODO: replace with your actual client_id from Google Cloud Console for production
+            const CLIENT_ID = "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com";
+            const REDIRECT_URI = window.location.origin;
+
+            const oauthUrl = `https://accounts.google.com/o/oauth2/v2/auth?` +
+              `client_id=${encodeURIComponent(CLIENT_ID)}` +
+              `&redirect_uri=${encodeURIComponent(REDIRECT_URI)}` +
+              `&response_type=token` +
+              `&scope=openid%20email%20profile` +
+              `&prompt=select_account` +
+              `&include_granted_scopes=true`;
+
+            // Centered popup logic
+            const width = 480;
+            const height = 600;
+            const left = window.screenX + (window.outerWidth - width) / 2;
+            const top = window.screenY + (window.outerHeight - height) / 2;
+            const popup = window.open(
+              oauthUrl,
+              "cine-google-login",
+              `width=${width},height=${height},left=${left},top=${top},resizable=yes,scrollbars=yes,status=yes`
+            );
+
+            // Handler for popup OAuth response via hash (implicit flow)
+            // Listen for message events from popup
+            function handleOAuthResponse(event) {
+              if (!event.origin.startsWith(window.location.origin)) return;
+              if (event.data && typeof event.data === "object" && event.data.type === "google-oauth-callback") {
+                if (event.data.access_token) {
+                  // Optionally: fetch user info and process as authenticated
+                  // console.log("Google OAuth Access Token:", event.data.access_token);
+                  // Optionally: Close modal or update state to authenticated
+                  if (onClose) onClose();
+                } else {
+                  // Error/cancellation
+                  // Optionally notify user
+                }
+                window.removeEventListener("message", handleOAuthResponse);
+              }
+            }
+            window.addEventListener("message", handleOAuthResponse);
+
+            // Fallback: Also poll for the access_token in popup's URL
+            const interval = setInterval(() => {
+              if (!popup || popup.closed) {
+                clearInterval(interval);
+                window.removeEventListener("message", handleOAuthResponse);
+                return;
+              }
+              try {
+                const popupUrl = popup.location.href;
+                if (popupUrl.indexOf(REDIRECT_URI) === 0 && popupUrl.indexOf("#") !== -1) {
+                  const hash = popupUrl.substring(popupUrl.indexOf("#") + 1);
+                  const params = new URLSearchParams(hash);
+                  const access_token = params.get("access_token");
+                  if (access_token) {
+                    // Send result to parent window
+                    window.postMessage({ type: "google-oauth-callback", access_token }, window.location.origin);
+                    popup.close();
+                    clearInterval(interval);
+                  }
+                }
+              } catch (e) {
+                // Cross-origin, ignore until redirected
+              }
+            }, 300);
+          }}
         >
           <span style={{ fontSize: "1.18em", lineHeight: 0 }}>
             <svg width="22" height="22" viewBox="0 0 20 20" style={{ verticalAlign: "middle" }} aria-hidden>

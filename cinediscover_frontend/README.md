@@ -13,6 +13,25 @@ This project provides a minimal React template with a clean, modern UI and minim
 
 In the project directory, you can run:
 
+### Google Sign-In Integration
+
+This project uses Google Identity Services OAuth popup for user authentication in the login modal.
+
+**To enable Google login fully:**
+1. [Register an OAuth 2.0 Client ID](https://console.cloud.google.com/apis/credentials) for your project (type: Web).
+2. Add your app's URL (`http://localhost:3000` for local dev) as an authorized redirect URI.
+3. Copy your `client_id` and set it in `src/LoginModal.js` where it says:
+   ```js
+   // TODO: replace with your actual client_id from Google Cloud Console for production
+   const CLIENT_ID = "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com";
+   ```
+4. Restart your app after editing code.
+
+**How it works:**  
+Clicking "Continue with Google" opens a popup for the account chooser. After you pick an account and allow access, the OAuth access token will be available, and (optionally) user info can be fetched.
+
+---
+
 ### `npm start`
 
 Runs the app in development mode.\

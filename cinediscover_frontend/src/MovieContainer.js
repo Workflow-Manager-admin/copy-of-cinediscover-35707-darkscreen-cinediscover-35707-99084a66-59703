@@ -42,8 +42,8 @@ function MovieContainer({ watchlist, setWatchlist }) {
   // Online/offline browser state
   const [isOnline, setIsOnline] = useState(navigator.onLine);
   // Sorting state: "asc" or "desc"
-  // Always default sort direction to "asc" for year sorting
-  const [sortDir, setSortDir] = useState("asc");
+  // Always default sort direction to "desc" for year sorting (latest movies first)
+  const [sortDir, setSortDir] = useState("desc");
   // Fetch error or offline state (to trigger offline/error overlay)
   const [fetchError, setFetchError] = useState(null);
 
@@ -115,8 +115,8 @@ function MovieContainer({ watchlist, setWatchlist }) {
           return;
         }
         if (!ignore) {
-          // Always sort newly fetched movies by year ascending (default behavior), 
-          // unless user has toggled descending (sortDir === "desc")
+          // Always sort newly fetched movies by year descending (default/initial behavior unless toggled),
+          // so latest movies appear first unless user sets ascending.
           setMovies(() => {
             let moviesArr = Array.isArray(data.Search) ? [...data.Search] : [];
             if (sortDir === "asc") {

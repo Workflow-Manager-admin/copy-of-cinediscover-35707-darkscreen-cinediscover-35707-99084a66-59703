@@ -1,0 +1,863 @@
+:root {
+  --kavia-orange: #E87A41;
+  --kavia-dark: #1A1A1A;
+  --primary-bg: #18181c;
+  --secondary-bg: #23232a;
+  --accent: #e50914;
+  --accent-hover: #b00610;
+  --text-color: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.7);
+  --border-color: rgba(255, 255, 255, 0.08);
+  --card-bg: #23232a;
+  --card-shadow: 0 2px 14px 0 rgba(0,0,0,.19);
+  --card-radius: 10px;
+  --movie-grid-gap: 1.5rem;
+}
+
+/* ======== Modern upper background style for subtle 55% fill ======== */
+.cine-bg-top {
+  position: fixed;
+  left: 0; right: 0; top: 0;
+  width: 100vw;
+  height: 55vh; /* Increased fill to 55% of viewport height */
+  min-height: 245px; /* Lifted min-height for increased prominence, especially on large displays */
+  max-height: 600px; /* Allow extra space to match larger 55vh on big screens */
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+  display: block;
+  overflow: hidden;
+}
+.cine-bg-img {
+  width: 100vw;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  position: absolute;
+  top: 0; left: 0;
+  z-index: 1;
+  opacity: 0.71; /* slightly higher image opacity (from 0.62) */
+  filter: blur(5px) brightness(0.89) contrast(1.13) saturate(1.27); /* less blur, brighter, more contrast/saturation */
+  transition: opacity 0.32s, filter 0.33s;
+  pointer-events: none;
+  user-select: none;
+}
+/* Top darkening overlay to blend into content */
+.cine-bg-overlay {
+  position: absolute;
+  left: 0; right: 0;
+  top: 0; bottom: 0;
+  width: 100vw; height: 100%;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(15,13,23,0.34) 0%, rgba(24,24,28,0.74) 64%, rgba(24,24,28,1) 100%);
+  /* lowered overlay opacity via color alpha for extra image peek-through */
+  border-bottom: 1.5px solid var(--border-color, rgba(255,255,255,0.06));
+  opacity: 0.82;  /* reduced from 0.89, so image is subtly more visible overall */
+  transition: opacity 0.23s;
+}
+
+/* Responsive adjustments for background image */
+@media (max-width: 780px) {
+  .cine-bg-top {
+    min-height: 135px;
+    max-height: 270px;
+    height: 55vw; /* 55% of viewport width (mobile/tablet: vertical fill fractionally increases for taller screens) */
+  }
+  .cine-bg-img {
+    filter: blur(7.3px) brightness(0.86) saturate(1.15) contrast(1.09);
+    opacity: 0.55;
+  }
+  .cine-bg-overlay {
+    opacity: 0.89;
+    /* Use slightly more alpha in top gradient if needed for further tuning */
+    background: linear-gradient(180deg, rgba(15,13,23,0.28) 0%, rgba(24,24,28,0.68) 64%, rgba(24,24,28,1) 100%);
+  }
+}
+
+@media (max-width: 520px) {
+  .cine-bg-top {
+    min-height: 84px;
+    max-height: 145px;
+    height: 46vw; /* ~46% coverage, a bit more than before for visual match */
+  }
+  .cine-bg-img {
+    filter: blur(8.5px) brightness(0.85) saturate(1.12) contrast(1.07);
+    opacity: 0.41;
+  }
+}
+
+/* Make sure main app UI stays above background */
+body,
+.app {
+  background: var(--primary-bg);
+  color: var(--text-color);
+  min-height: 100vh;
+  position: relative;
+  z-index: 1;
+}
+
+/* Subtle anchored background image art - non-intrusive, does not cover content */
+.app-bg-art {
+  position: fixed;
+  pointer-events: none;
+  z-index: 0;
+  right: 0;
+  bottom: 0;
+  width: 340px;
+  max-width: 68vw;
+  height: auto;
+  min-width: 150px;
+  opacity: 0.17;
+  filter: blur(3px) saturate(1.1) brightness(0.93);
+  transition: opacity .25s;
+  user-select: none;
+}
+
+@media (max-width: 700px) {
+  .app-bg-art {
+    width: 168px;
+    max-width: 52vw;
+    min-width: 90px;
+    opacity: 0.11;
+    filter: blur(4px) saturate(1) brightness(0.8);
+  }
+}
+@media (max-width: 480px) {
+  .app-bg-art {
+    width: 100px;
+    opacity: 0.09;
+    filter: blur(5px) saturate(1) brightness(0.77);
+  }
+}
+
+/* Keep main UI and overlay content above, position relative/z-index:2 applied in App.js */
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 1;
+}
+
+/* --- CineScope Footer Styling --- */
+.cine-footer {
+  width: 100%;
+  background: linear-gradient(90deg, #18181c 74%, #250307 110%);
+  color: var(--text-secondary, rgba(255,255,255,0.72));
+  font-size: 0.87rem;
+  opacity: 0.85;
+  padding: 10px 0 8px 0;
+  letter-spacing: 0.01em;
+  text-align: center;
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  z-index: 21;
+  margin-top: auto; /* keeps footer at bottom if little content */
+  border-top: 1.5px solid var(--border-color, rgba(255,255,255,0.09));
+  box-shadow: 0 -6px 28px 0 #e5091416;
+  backdrop-filter: blur(2.5px) saturate(1.2);
+  -webkit-backdrop-filter: blur(2.5px) saturate(1.2);
+  user-select: none;
+  transition: opacity .18s;
+}
+
+/* Footer text escape for lowest brightness on smallest screens */
+.cine-footer-text {
+  display: inline-block;
+  font-size: 0.82rem;
+  color: var(--text-secondary, #cccccc);
+  opacity: 0.78;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  line-height: 1.24em;
+  max-width: 97vw;
+  width: auto;
+  white-space: normal;
+  word-break: break-word;
+  margin: 0 18px;
+  text-align: center;
+}
+
+/* Mobile adjustment for footer: smaller font, bigger tap targets if needed */
+@media (max-width: 520px) {
+  .cine-footer {
+    font-size: 0.79rem;
+    padding: 8px 0 7px 0;
+  }
+  .cine-footer-text {
+    font-size: 0.77rem;
+    padding: 0 2vw;
+    max-width: 99vw;
+  }
+}
+.container {
+  width: 100%;
+  max-width: 1152px;
+  padding-left: 24px;
+  padding-right: 24px;
+  margin: 0 auto;
+  position: relative;
+  box-sizing: border-box;
+}
+@media (max-width: 600px) {
+  .container {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+}
+/* Navbar styles */
+.navbar {
+  width: 100%;
+  min-height: 64px;
+  padding: 0;
+  background: linear-gradient(90deg, #18181c 65%, #1a050a 110%);
+  display: flex;
+  align-items: center;
+  box-shadow: 0 3.5px 24px 0 #e509142c, 0 2px 15px 0 rgba(0,0,0,.22);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99;
+  border-bottom: 2.5px solid var(--accent);
+}
+
+/* CineScope Header Custom Styles */
+.cine-navbar {
+  background: linear-gradient(90deg, #16161b 76%, #250307 110%);
+  box-shadow: 0 4px 22px 0 #e5091428;
+  border-bottom: 2.5px solid var(--accent);
+}
+
+.cine-logo-header {
+  display: flex;
+  align-items: center;
+  min-height: 64px;
+  font-family: 'Segoe UI', 'Roboto', 'Oxygen', 'Montserrat', 'Arial Black', sans-serif;
+  cursor: pointer;
+}
+
+.cine-logo-icon {
+  font-size: 2.13rem;
+  margin-right: 15px;
+  color: var(--accent);
+  filter: drop-shadow(0 2px 4px #e5091460);
+  text-shadow: 0 2px 17px #e5091446, 0 2px 12px #000b;
+  opacity: 0.92;
+}
+
+.cine-logo-text {
+  font-size: 2.23rem;
+  font-weight: 800;
+  letter-spacing: 0.025em;
+  color: var(--text-color);
+  filter: drop-shadow(0 7px 24px #e509143f);
+  text-shadow: 0 2px 18px #e5091442, 0 1.8px 12px #18181c77;
+  transition: color 0.15s;
+  user-select: none;
+  line-height: 1.2;
+}
+.cine-logo-text span {
+  /* Only the 'Scope' part is red accent - handled inline style in JSX */
+  font-weight: 840;
+  letter-spacing: -0.02em;
+}
+main {
+  padding-top: 70px;
+  flex: 1;
+}
+.btn {
+  background: none;
+  border: 2px solid var(--accent);
+  color: var(--accent);
+  border-radius: 5px;
+  outline: none;
+  padding: 0.5em 1.35em;
+  margin: 0;
+  font-weight: 600;
+  transition: background .14s, color .13s, border .13s;
+  font-size: 15px;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 0 1px 8px #e5091425;
+}
+
+/* Watchlist Button - visually distinct, accent, right-aligned in navbar */
+.btn-watchlist {
+  /* Subtle red-pink diagonal glass gradient and frosted glass blur */
+  background:
+    linear-gradient(98deg, rgba(229,9,20,0.93) 25%, rgba(244,75,117,0.87) 71%, rgba(229,9,54,0.81) 100%);
+  color: #fff;
+  border: 2.4px solid rgba(255,68,88,0.30); /* Slight, softly colored border for contrast */
+  border-radius: 22px;
+  padding: 0.36em 1.05em;
+  margin-left: 10px;
+  box-sizing: border-box;
+  font-size: 0.98rem;
+  font-family: inherit;
+  font-weight: 760;
+  letter-spacing: 0.024em;
+  outline: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55em;
+  filter: none;
+  cursor: pointer;
+  position: relative;
+  z-index: 2;
+  overflow: visible;
+  text-shadow:
+    0 1px 6px #e5091428;
+  min-height: 32px;
+  min-width: 90px;
+
+  /* Frosted glass effect: */
+  backdrop-filter: blur(7px) saturate(1.35);
+  -webkit-backdrop-filter: blur(7px) saturate(1.35);
+
+  /* Soft inner shadow for depth (subtle) */
+  box-shadow:
+    0 1.5px 12px 0 #e5091477,
+    0 0.5px 2px 0 #e5091436,
+    0 0 0 2.1px rgba(229,9,20,0.12) inset,
+    0 2.5px 12px 0 rgba(255,68,126,0.13) inset;
+
+  /* Soft shine/overlay using a pseudo element */
+  transition:
+    box-shadow 0.28s cubic-bezier(.39,.15,.57,1.03),
+    background 0.19s cubic-bezier(.56,.03,.58,1),
+    color 0.16s,
+    transform 0.16s,
+    border 0.13s;
+}
+
+.btn-watchlist::after {
+  /* Shine/soft overlay for depth, non-intrusive */
+  content: '';
+  pointer-events: none;
+  position: absolute;
+  left: 5%; right: 5%;
+  top: 8%; height: 50%;
+  border-radius: 18px 18px 12px 12px;
+  background:
+    linear-gradient(100deg, rgba(255,255,255,0.14) 10%, rgba(255,255,255,0.10) 26%, rgba(255,255,255,0.01) 95%);
+  box-shadow: 0 2px 5px 0px rgba(255,255,255,0.03) inset;
+  z-index: 1;
+}
+
+.btn-watchlist:hover,
+.btn-watchlist:focus {
+  background:
+    linear-gradient(95deg, #e50914 24%, #ff357c 67%, #f08394 100%);
+  color: #fff;
+  /* Stronger, sharper layered red/pink glow */
+  box-shadow:
+    0 0 16px 6px #e50914e0,
+    0 2px 18px 3px #ff357c7d,
+    0 5px 22px 0 #e509145b,
+    0 0 0 3.5px #f3345290;
+  outline: none;
+  text-shadow: 0 1.5px 6px #fc85b7aa, 0 1.2px 5px #e5091475;
+  border: 2.4px solid #ff357ccb;
+  transform: scale(1.075);
+}
+
+/* Slight press effect for accessibility */
+.btn-watchlist:active {
+  box-shadow:
+    0 0 7px 1px #e50914cc,
+    0 1.5px 9px 0 #ff357c42;
+  background:
+    linear-gradient(96deg, #e50914 26%, #c5114f 88%);
+}
+
+/* Ensure font stays readable/weighted for accessibility and clean lines */
+.btn-watchlist span, .btn-watchlist-label {
+  font-weight: 760;
+  letter-spacing: 0.035em;
+  font-family: 'Segoe UI', 'Roboto', 'Montserrat', system-ui, sans-serif;
+  font-size: 1em;
+}
+
+/* Remove default text-shadow in force, but use soft glow for definition */
+.btn-watchlist:focus-visible {
+  outline: 2.7px solid #ff357cb7;
+  outline-offset: 1.6px;
+}
+
+.btn-watchlist:hover,
+.btn-watchlist:focus {
+  background: var(--accent-hover);
+  color: #fff;
+  box-shadow: 0 0 12px 5px #e50914b5, 0 2px 16px #e5091477, 0 5px 24px 0 #e509143f;
+  transform: scale(1.07);
+  outline: none;
+  text-shadow: none;
+}
+
+.btn:active,
+.btn:focus {
+  box-shadow: 0 2px 14px #e5091439;
+  outline: 1.5px solid var(--accent);
+}
+.btn:hover,
+.btn.watchlist-active,
+.btn:active:not(:disabled) {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* -- CineScope Custom Search Button -- */
+/* (Removed .search-btn styles: search is triggered only by Enter key. If other elements use .search-btn, migrate to generic .btn or re-add as needed.) */
+
+/* Responsive stacking for small screens: search input and buttons */
+/* (Removed responsive .search-btn adjustments: not needed without button) */
+
+/* Sort Button - visually similar to .btn but smaller and in-line */
+.sort-btn {
+  padding: 0.35em 0.85em;
+  font-size: 14px;
+  min-width: 0;
+  border-radius: 5px;
+  margin-left: 3px;
+  margin-right: 2px;
+  line-height: 1.1;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  font-weight: 600;
+  height: 30px;
+  vertical-align: middle;
+  transition: background .14s, color .13s, border .13s;
+}
+.sort-btn:active, .sort-btn:focus {
+  background: var(--accent-hover);
+  color: #fff;
+  box-shadow: 0 2px 8px #e5091430;
+  outline: 1.5px solid var(--accent);
+}
+.sort-btn:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* Responsive: Stack sort/clear buttons below input on small screens */
+@media (max-width: 540px) {
+  .sort-btn {
+    font-size: 13px;
+    height: 28px;
+    padding: 0.32em 0.7em;
+  }
+}
+.btn.showtimes {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  margin-left: 8px;
+  font-weight: 600;
+  letter-spacing: .01em;
+  box-shadow: 0 2px 10px #e509142b;
+  font-size: 14px;
+  padding: 0.5em 1.18em;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background .15s;
+}
+.btn.showtimes:hover {
+  background: var(--accent-hover);
+}
+.movie-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--movie-grid-gap);
+  margin-bottom: 20px;
+  width: 100%;
+}
+@media (max-width: 700px) {
+  .movie-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+}
+@media (max-width: 440px) {
+  .movie-grid {
+    grid-template-columns: 1fr;
+    gap: 0.9rem;
+  }
+}
+.movie-card {
+  background: var(--card-bg);
+  color: var(--text-color);
+  border-radius: var(--card-radius);
+  box-shadow: var(--card-shadow);
+  padding: 0 0 18px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 352px;
+  position: relative;
+  transition: box-shadow .12s, border .13s;
+  border: 2px solid transparent;
+}
+.movie-card.movie-watchlisted {
+  border: 2px solid var(--accent);
+  box-shadow: 0 0 0 2px var(--accent), 0 2px 14px 0 rgba(0,0,0,.22);
+}
+.movie-card:hover,
+.movie-card:focus {
+  box-shadow: 0 0 0 2.5px var(--accent), 0 2px 30px 0 rgba(229, 9, 20, .07);
+  border: 2px solid var(--accent);
+}
+.movie-card img {
+  height: 170px;
+  width: auto;
+  max-width: 92%;
+  margin: 20px 0 8px 0;
+  border-radius: 7px;
+  background: #18181c;
+  object-fit: cover;
+  box-shadow: 0 3px 10px 0 #1514172b;
+  transition: filter .14s, border .13s;
+}
+.movie-watchlisted img {
+  filter: brightness(1.07) saturate(1.22);
+  border: 2px solid var(--accent);
+}
+.movie-title {
+  font-size: 1.04rem;
+  margin-top: 8px;
+  margin-bottom: 2px;
+  font-weight: 600;
+  text-align: center;
+  line-height: 1.1em;
+  width: 95%;
+  word-break: break-word;
+  color: #fff;
+  letter-spacing: .01em;
+  min-height: 38px;
+}
+.movie-year {
+  font-size: 0.96em;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+  font-weight: 400;
+}
+.movie-card-actions {
+  display: flex;
+  width: 94%;
+  justify-content: center;
+  margin: 12px 0 0 0;
+  gap: 0.4em;
+}
+@media (max-width: 600px) {
+  .movie-card img {
+    height: 132px;
+    margin: 14px 0 5px 0;
+  }
+  .movie-title {
+    font-size: 0.92rem;
+    min-height: 32px;
+  }
+  .movie-card {
+    min-height: 260px;
+    padding-bottom: 12px;
+  }
+  .movie-card-actions {
+    flex-direction: column;
+    gap: 0.3em;
+  }
+}
+/* Watchlisted badge (star) */
+.movie-card .movie-watchlisted-badge, .movie-card .star-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+  box-shadow: 0 1.5px 6px #e5091445;
+}
+/* Loading spinner */
+@keyframes cine-spin {
+  0% { transform: rotate(0deg);}
+  100% { transform: rotate(360deg);}
+}
+.spinner {
+  border: 3.8px solid #222226;
+  border-top: 3.8px solid var(--accent);
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  animation: cine-spin 1.04s linear infinite;
+  display: inline-block;
+}
+@media (max-width: 450px) {
+  .movie-title { min-height: 24px; font-size: 0.84rem;}
+  .movie-year { font-size: .9em;}
+  .btn,
+  .btn.showtimes { font-size: 13px; padding: 0.45em 1em;}
+}
+/* Offline/Error/Watchlist overlays */
+.offline-box, .error-box {
+  background: var(--card-bg);
+  border-radius: 8px;
+  padding: 30px 24px 32px 24px;
+  margin: 38px auto 0;
+  max-width: 98vw;
+  width: 370px;
+  box-shadow: var(--card-shadow);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 2px solid var(--accent);
+}
+.offline-icon, .error-icon {
+  font-size: 44px;
+  color: var(--accent);
+  margin-bottom: 13px;
+  filter: drop-shadow(0 3px 10px #e509144c);
+}
+.offline-title, .error-title {
+  color: var(--accent);
+  margin: 0;
+  font-weight: 700;
+  font-size: 1.29rem;
+}
+.offline-desc, .error-desc {
+  color: var(--text-secondary);
+  margin-top: 14px;
+  text-align: center;
+}
+.watchlist-list {
+  margin-top: 16px;
+  width: 100%;
+}
+.watchlist-list ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  max-height: 204px;
+  overflow: auto;
+}
+.watchlist-list li {
+  margin-bottom: 10px;
+  background: #23232a;
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: #fff;
+  font-size: 15px;
+}
+
+::-webkit-scrollbar {
+  width: 9px;
+  background: var(--secondary-bg);
+}
+::-webkit-scrollbar-thumb {
+  background: #232028;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #241823;
+}
+
+/* ==== Watchlist Modal Styles ==== */
+.watchlist-modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 1200;
+  background: rgba(26,13,16,0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: modal-fade-in 0.23s;
+  transition: background 0.18s;
+}
+
+@keyframes modal-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.watchlist-modal-content {
+  background: var(--secondary-bg, #23232a);
+  color: var(--text-color, #fff);
+  box-shadow: 0 8px 28px 0 #0a010831, 0 1.2px 19px #e5091425;
+  border-radius: 18px;
+  min-width: 300px;
+  width: 97vw;
+  max-width: 420px;
+  padding: 32px 22px 24px 22px;
+  position: relative;
+  outline: none;
+  max-height: 88vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.watchlist-modal-close {
+  position: absolute;
+  right: 18px;
+  top: 17px;
+  background: none;
+  border: none;
+  color: var(--accent, #e50914);
+  font-size: 1.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  z-index: 1;
+  opacity: 0.86;
+  transition: color 0.13s, opacity 0.16s;
+}
+.watchlist-modal-close:hover, .watchlist-modal-close:focus {
+  color: var(--accent-hover, #b00610);
+  opacity: 1;
+  outline: none;
+}
+
+.watchlist-modal-title {
+  color: var(--accent, #e50914);
+  font-weight: 770;
+  margin: 0 0 18px 0;
+  text-align: left;
+  font-size: 1.33rem;
+  letter-spacing: 0.01em;
+}
+
+.watchlist-modal-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  font-size: 1.06rem;
+  color: var(--text-secondary, #ccc);
+  margin: 28px 0 10px 0;
+}
+
+.watchlist-modal-list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-top: 2px;
+}
+.watchlist-modal-item {
+  display: flex;
+  align-items: center;
+  background: rgba(30,21,28,0.85);
+  border-radius: 8px;
+  padding: 9px 8px 8px 5px;
+  box-shadow: 0 2px 9px 0 #2612142a;
+  gap: 15px;
+  position: relative;
+}
+
+/* Style for the small remove button in watchlist modal */
+.remove-watchlist-btn {
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  width: 26px;
+  height: 26px;
+  min-width: 0;
+  min-height: 0;
+  background: none;
+  color: var(--accent, #e50914);
+  border: 2px solid var(--accent, #e50914);
+  border-radius: 50%;
+  font-size: 1.17rem;
+  font-weight: 900;
+  cursor: pointer;
+  opacity: 0.82;
+  transition: background 0.12s, color 0.12s, opacity 0.16s, border 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  padding: 0;
+}
+.remove-watchlist-btn:hover,
+.remove-watchlist-btn:focus {
+  background: var(--accent, #e50914);
+  color: #fff;
+  border: 2px solid var(--accent-hover, #b00610);
+  outline: none;
+  opacity: 1;
+  transform: scale(1.09);
+}
+
+@media (max-width: 400px) {
+  .remove-watchlist-btn {
+    width: 21px;
+    height: 21px;
+    font-size: 1rem;
+    top: 4.5px;
+    right: 4.5px;
+  }
+}
+
+.watchlist-modal-poster {
+  border-radius: 4.5px;
+  background: #18181c;
+  width: 48px;
+  height: 72px;
+  object-fit: cover;
+  box-shadow: 0 1.2px 9px #19181d30;
+  border: 2px solid var(--accent, #e50914);
+}
+
+.watchlist-modal-meta {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.watchlist-modal-movie-title {
+  font-weight: 700;
+  font-size: 1.045rem;
+  color: var(--text-color, #fff);
+  margin-bottom: 4px;
+}
+
+.watchlist-modal-movie-year {
+  font-size: 0.93rem;
+  color: var(--text-secondary, #ccc);
+}
+
+/* Mobile optimization */
+@media (max-width: 540px) {
+  .watchlist-modal-content {
+    min-width: 0;
+    width: 98vw;
+    padding: 20px 2vw 16px 2vw;
+    max-width: 99vw;
+  }
+  .watchlist-modal-title { font-size: 1.07rem; }
+  .watchlist-modal-movie-title { font-size: 0.98rem; }
+}
+
+@media (max-width: 400px) {
+  .watchlist-modal-list { gap: 9px;}
+  .watchlist-modal-item { padding: 6px 3px 6px 3px; }
+  .watchlist-modal-poster { width: 35px; height: 54px; }
+  .watchlist-modal-title { font-size: .97rem; }
+}
+
+@media (max-width: 440px) {
+  .offline-box, .error-box {
+    padding: 16px 7px 17px 7px;
+    font-size: 0.95rem;
+    width: 96vw;
+    min-width: 0;
+  }
+}

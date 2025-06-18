@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import MovieContainer from './MovieContainer';
 import WatchlistModal from './WatchlistModal';
+import LoginModal from './LoginModal';
 
 // PUBLIC_INTERFACE
 function App() {
@@ -22,6 +23,8 @@ function App() {
 
   // Modal open state
   const [modalOpen, setModalOpen] = useState(false);
+  // Login modal state
+  const [loginOpen, setLoginOpen] = useState(false);
 
   // Accessibility: Close modal on navigation or hashchange
   useEffect(() => {
@@ -67,38 +70,69 @@ function App() {
                 <span style={{ color: 'var(--accent)' }}>Scope</span>
               </span>
             </div>
-            {/* Watchlist Button */}
-            <button
-              className="btn btn-watchlist"
-              type="button"
-              aria-label="View Watchlist"
-              tabIndex={0}
-              title="View your saved Watchlist"
-              onClick={() => setModalOpen(true)}
-              style={{
-                marginLeft: 8,
-                minWidth: 90,
-                fontWeight: 700,
-                border: "none",
-                boxShadow: "none",
-                padding: "0.36em 1.05em",
-                height: 34,
-                lineHeight: 1.2
-              }}
-              disabled={false}
-            >
-              <span style={{
-                fontWeight: 700,
-                fontSize: "1em",
-                letterSpacing: "0.01em"
-              }}>
-                View Watchlist
-              </span>
-            </button>
+            {/* Action Buttons: Watchlist and Login */}
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <button
+                className="btn btn-login"
+                type="button"
+                aria-label="Log In"
+                tabIndex={0}
+                title="Login"
+                onClick={() => setLoginOpen(true)}
+                style={{
+                  minWidth: 84,
+                  fontWeight: 700,
+                  border: "2px solid var(--accent)",
+                  background: "none",
+                  color: "var(--accent)",
+                  padding: "0.36em 1.04em",
+                  borderRadius: 7,
+                  marginRight: 8,
+                  height: 34,
+                  lineHeight: 1.2,
+                  fontSize: "0.98em",
+                  cursor: "pointer"
+                }}
+              >
+                Login
+              </button>
+              <button
+                className="btn btn-watchlist"
+                type="button"
+                aria-label="View Watchlist"
+                tabIndex={0}
+                title="View your saved Watchlist"
+                onClick={() => setModalOpen(true)}
+                style={{
+                  marginLeft: 0,
+                  minWidth: 90,
+                  fontWeight: 700,
+                  border: "none",
+                  boxShadow: "none",
+                  padding: "0.36em 1.05em",
+                  height: 34,
+                  lineHeight: 1.2
+                }}
+                disabled={false}
+              >
+                <span style={{
+                  fontWeight: 700,
+                  fontSize: "1em",
+                  letterSpacing: "0.01em"
+                }}>
+                  View Watchlist
+                </span>
+              </button>
+            </div>
           </div>
         </div>
       </nav>
       <main style={{ position: "relative", zIndex: 2 }}>
+        {/* Login modal */}
+        <LoginModal
+          open={loginOpen}
+          onClose={() => setLoginOpen(false)}
+        />
         {/* Display watchlist modal overlay (portal-like) */}
         <WatchlistModal
           open={modalOpen}

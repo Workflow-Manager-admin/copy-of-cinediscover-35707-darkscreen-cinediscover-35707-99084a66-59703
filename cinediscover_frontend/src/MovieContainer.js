@@ -47,8 +47,8 @@ function MovieContainer({ watchlist, setWatchlist }) {
   // Fetch error or offline state (to trigger offline/error overlay)
   const [fetchError, setFetchError] = useState(null);
 
-  // Search query state, default to "star" (legacy) or empty string for blank
-  const [query, setQuery] = useState("star");
+  // Search query state, default to "mission impossible" as per requirements
+  const [query, setQuery] = useState("mission impossible");
 
   // Debounced query state
   const [debouncedQuery, setDebouncedQuery] = useState(query);

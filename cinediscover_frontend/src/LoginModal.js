@@ -52,36 +52,13 @@ export default function LoginModal({ open, onClose }) {
       role="dialog"
       tabIndex={-1}
       style={{
-        position: "fixed",
-        zIndex: 1210,
-        background: "rgba(26,13,16,0.68)",
-        top: 0, left: 0, right: 0, bottom: 0,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        animation: "modal-fade-in 0.22s",
-        transition: "background 0.16s"
+        // Now handled entirely in App.css for modal overlay and stacking
       }}
     >
       <div
         className="login-modal-content"
         tabIndex={0}
-        style={{
-          background: "var(--secondary-bg, #23232a)",
-          color: "var(--text-color, #fff)",
-          boxShadow: "0 10px 34px 0 #0a010833, 0 1.2px 12px #e5091425",
-          borderRadius: 18,
-          minWidth: 295,
-          width: "96vw",
-          maxWidth: 380,
-          padding: "32px 22px 28px 22px",
-          position: "relative",
-          maxHeight: "94vh",
-          overflowY: "auto",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "stretch"
-        }}
+        // All modal positioning and style moved to App.css for consistency.
       >
         <button
           className="login-modal-close"

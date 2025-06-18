@@ -713,19 +713,18 @@ main {
   width: 97vw;
   max-width: 420px;
   padding: 32px 22px 24px 22px;
-  position: relative;
+  position: fixed;
   outline: none;
   max-height: 88vh;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  /* Center in viewport - override any other accidental vertical offset */
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  margin: auto;
+  /* Horizontally center, vertically at 30% of viewport */
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -30%);
+  z-index: 1201;
 }
 
 .watchlist-modal-close {
@@ -907,15 +906,17 @@ main {
   width: 96vw;
   max-width: 370px;
   padding: 32px 22px 28px 22px;
-  position: relative;
+  position: fixed;
   max-height: 94vh;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  /* Center for accessibility even if parent overlay is mispositioned */
-  top: 0; left: 0; right: 0; bottom: 0;
-  margin: auto;
+  /* Horizontally center, vertically at 30% of viewport */
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -30%);
+  z-index: 1211;
 }
 
 .login-modal-close {

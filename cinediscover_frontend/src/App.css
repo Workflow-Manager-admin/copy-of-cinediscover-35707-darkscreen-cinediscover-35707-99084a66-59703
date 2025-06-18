@@ -19,9 +19,9 @@
   position: fixed;
   left: 0; right: 0; top: 0;
   width: 100vw;
-  height: 55vh; /* Increased fill to 55% of viewport height */
-  min-height: 245px; /* Lifted min-height for increased prominence, especially on large displays */
-  max-height: 600px; /* Allow extra space to match larger 55vh on big screens */
+  height: 55vh;
+  min-height: 245px;
+  max-height: 600px;
   z-index: 0;
   pointer-events: none;
   user-select: none;
@@ -36,8 +36,8 @@
   position: absolute;
   top: 0; left: 0;
   z-index: 1;
-  opacity: 0.71; /* slightly higher image opacity (from 0.62) */
-  filter: blur(5px) brightness(0.89) contrast(1.13) saturate(1.27); /* less blur, brighter, more contrast/saturation */
+  opacity: 0.71;
+  filter: blur(5px) brightness(0.89) contrast(1.13) saturate(1.27);
   transition: opacity 0.32s, filter 0.33s;
   pointer-events: none;
   user-select: none;
@@ -51,18 +51,16 @@
   z-index: 2;
   pointer-events: none;
   background: linear-gradient(180deg, rgba(15,13,23,0.34) 0%, rgba(24,24,28,0.74) 64%, rgba(24,24,28,1) 100%);
-  /* lowered overlay opacity via color alpha for extra image peek-through */
   border-bottom: 1.5px solid var(--border-color, rgba(255,255,255,0.06));
-  opacity: 0.82;  /* reduced from 0.89, so image is subtly more visible overall */
+  opacity: 0.82;
   transition: opacity 0.23s;
 }
 
-/* Responsive adjustments for background image */
 @media (max-width: 780px) {
   .cine-bg-top {
     min-height: 135px;
     max-height: 270px;
-    height: 55vw; /* 55% of viewport width (mobile/tablet: vertical fill fractionally increases for taller screens) */
+    height: 55vw;
   }
   .cine-bg-img {
     filter: blur(7.3px) brightness(0.86) saturate(1.15) contrast(1.09);
@@ -70,7 +68,6 @@
   }
   .cine-bg-overlay {
     opacity: 0.89;
-    /* Use slightly more alpha in top gradient if needed for further tuning */
     background: linear-gradient(180deg, rgba(15,13,23,0.28) 0%, rgba(24,24,28,0.68) 64%, rgba(24,24,28,1) 100%);
   }
 }
@@ -79,7 +76,7 @@
   .cine-bg-top {
     min-height: 84px;
     max-height: 145px;
-    height: 46vw; /* ~46% coverage, a bit more than before for visual match */
+    height: 46vw;
   }
   .cine-bg-img {
     filter: blur(8.5px) brightness(0.85) saturate(1.12) contrast(1.07);
@@ -87,7 +84,6 @@
   }
 }
 
-/* Make sure main app UI stays above background */
 body,
 .app {
   background: var(--primary-bg);
@@ -97,7 +93,6 @@ body,
   z-index: 1;
 }
 
-/* Subtle anchored background image art - non-intrusive, does not cover content */
 .app-bg-art {
   position: fixed;
   pointer-events: none;
@@ -113,7 +108,6 @@ body,
   transition: opacity .25s;
   user-select: none;
 }
-
 @media (max-width: 700px) {
   .app-bg-art {
     width: 168px;
@@ -131,14 +125,12 @@ body,
   }
 }
 
-/* Keep main UI and overlay content above, position relative/z-index:2 applied in App.js */
 .app {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   position: relative;
   z-index: 1;
-  /* fade-in state: hidden initially if app-fadein not present */
 }
 .app-fadein {
   animation: cine-app-fadein 0.8s cubic-bezier(.19,1,.22,1) both;
@@ -171,7 +163,7 @@ body,
   bottom: 0;
   left: 0;
   z-index: 21;
-  margin-top: auto; /* keeps footer at bottom if little content */
+  margin-top: auto;
   border-top: 1.5px solid var(--border-color, rgba(255,255,255,0.09));
   box-shadow: 0 -6px 28px 0 #e5091416;
   backdrop-filter: blur(2.5px) saturate(1.2);
@@ -180,7 +172,6 @@ body,
   transition: opacity .18s;
 }
 
-/* Footer text escape for lowest brightness on smallest screens */
 .cine-footer-text {
   display: inline-block;
   font-size: 0.82rem;
@@ -197,7 +188,6 @@ body,
   text-align: center;
 }
 
-/* Mobile adjustment for footer: smaller font, bigger tap targets if needed */
 @media (max-width: 520px) {
   .cine-footer {
     font-size: 0.79rem;
@@ -224,6 +214,7 @@ body,
     padding-right: 8px;
   }
 }
+
 /* Navbar styles */
 .navbar {
   width: 100%;
@@ -240,7 +231,6 @@ body,
   border-bottom: 2.5px solid var(--accent);
 }
 
-/* CineDiscover Header Custom Styles */
 .cine-navbar {
   background: linear-gradient(90deg, #16161b 76%, #250307 110%);
   box-shadow: 0 4px 22px 0 #e5091428;
@@ -276,7 +266,6 @@ body,
   line-height: 1.2;
 }
 .cine-logo-text span {
-  /* Only the 'Scope' part is red accent - handled inline style in JSX */
   font-weight: 840;
   letter-spacing: -0.02em;
 }
@@ -301,13 +290,12 @@ main {
   box-shadow: 0 1px 8px #e5091425;
 }
 
-/* Watchlist Button - visually distinct, accent, right-aligned in navbar */
+/* Watchlist Button */
 .btn-watchlist {
-  /* Subtle red-pink diagonal glass gradient and frosted glass blur */
   background:
     linear-gradient(98deg, rgba(229,9,20,0.93) 25%, rgba(244,75,117,0.87) 71%, rgba(229,9,54,0.81) 100%);
   color: #fff;
-  border: 2.4px solid rgba(255,68,88,0.30); /* Slight, softly colored border for contrast */
+  border: 2.4px solid rgba(255,68,88,0.30);
   border-radius: 22px;
   padding: 0.36em 1.05em;
   margin-left: 10px;
@@ -329,19 +317,13 @@ main {
     0 1px 6px #e5091428;
   min-height: 32px;
   min-width: 90px;
-
-  /* Frosted glass effect: */
   backdrop-filter: blur(7px) saturate(1.35);
   -webkit-backdrop-filter: blur(7px) saturate(1.35);
-
-  /* Soft inner shadow for depth (subtle) */
   box-shadow:
     0 1.5px 12px 0 #e5091477,
     0 0.5px 2px 0 #e5091436,
     0 0 0 2.1px rgba(229,9,20,0.12) inset,
     0 2.5px 12px 0 rgba(255,68,126,0.13) inset;
-
-  /* Soft shine/overlay using a pseudo element */
   transition:
     box-shadow 0.28s cubic-bezier(.39,.15,.57,1.03),
     background 0.19s cubic-bezier(.56,.03,.58,1),
@@ -351,7 +333,6 @@ main {
 }
 
 .btn-watchlist::after {
-  /* Shine/soft overlay for depth, non-intrusive */
   content: '';
   pointer-events: none;
   position: absolute;
@@ -369,7 +350,6 @@ main {
   background:
     linear-gradient(95deg, #e50914 24%, #ff357c 67%, #f08394 100%);
   color: #fff;
-  /* Stronger, sharper layered red/pink glow */
   box-shadow:
     0 0 16px 6px #e50914e0,
     0 2px 18px 3px #ff357c7d,
@@ -380,30 +360,16 @@ main {
   border: 2.4px solid #ff357ccb;
   transform: scale(1.075);
 }
-
-/* Slight press effect for accessibility */
-.btn-watchlist:active {
-  box-shadow:
-    0 0 7px 1px #e50914cc,
-    0 1.5px 9px 0 #ff357c42;
-  background:
-    linear-gradient(96deg, #e50914 26%, #c5114f 88%);
-}
-
-/* Ensure font stays readable/weighted for accessibility and clean lines */
 .btn-watchlist span, .btn-watchlist-label {
   font-weight: 760;
   letter-spacing: 0.035em;
   font-family: 'Segoe UI', 'Roboto', 'Montserrat', system-ui, sans-serif;
   font-size: 1em;
 }
-
-/* Remove default text-shadow in force, but use soft glow for definition */
 .btn-watchlist:focus-visible {
   outline: 2.7px solid #ff357cb7;
   outline-offset: 1.6px;
 }
-
 .btn-watchlist:hover,
 .btn-watchlist:focus {
   background: var(--accent-hover);
@@ -426,13 +392,6 @@ main {
   color: #fff;
 }
 
-/* -- CineScope Custom Search Button -- */
-/* (Removed .search-btn styles: search is triggered only by Enter key. If other elements use .search-btn, migrate to generic .btn or re-add as needed.) */
-
-/* Responsive stacking for small screens: search input and buttons */
-/* (Removed responsive .search-btn adjustments: not needed without button) */
-
-/* Sort Button - visually similar to .btn but smaller and in-line */
 .sort-btn {
   padding: 0.35em 0.85em;
   font-size: 14px;
@@ -459,8 +418,6 @@ main {
   background: var(--accent);
   color: #fff;
 }
-
-/* Responsive: Stack sort/clear buttons below input on small screens */
 @media (max-width: 540px) {
   .sort-btn {
     font-size: 13px;
@@ -468,6 +425,7 @@ main {
     padding: 0.32em 0.7em;
   }
 }
+
 .btn.showtimes {
   background: var(--accent);
   color: #fff;
@@ -485,6 +443,7 @@ main {
 .btn.showtimes:hover {
   background: var(--accent-hover);
 }
+
 .movie-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -504,6 +463,7 @@ main {
     gap: 0.9rem;
   }
 }
+
 .movie-card {
   background: var(--card-bg);
   color: var(--text-color);
@@ -586,6 +546,7 @@ main {
     gap: 0.3em;
   }
 }
+
 /* Watchlisted badge (star) */
 .movie-card .movie-watchlisted-badge, .movie-card .star-badge {
   position: absolute;
@@ -603,6 +564,7 @@ main {
   font-size: 14px;
   box-shadow: 0 1.5px 6px #e5091445;
 }
+
 /* Loading spinner */
 @keyframes cine-spin {
   0% { transform: rotate(0deg);}
@@ -623,6 +585,7 @@ main {
   .btn,
   .btn.showtimes { font-size: 13px; padding: 0.45em 1em;}
 }
+
 /* Offline/Error/Watchlist overlays */
 .offline-box, .error-box {
   background: var(--card-bg);
@@ -686,7 +649,6 @@ main {
   background: #241823;
 }
 
-
 /* ==== Watchlist Modal Styles ==== */
 .watchlist-modal-overlay {
   position: fixed;
@@ -703,7 +665,6 @@ main {
   from { opacity: 0; }
   to { opacity: 1; }
 }
-
 .watchlist-modal-content {
   background: var(--secondary-bg, #23232a);
   color: var(--text-color, #fff);
@@ -720,13 +681,12 @@ main {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  /* Horizontally center, vertically at 30% of viewport */
-  top: 30%;
+  /* Centered vertically and horizontally */
+  top: 50%;
   left: 50%;
-  transform: translate(-50%, -30%);
+  transform: translate(-50%, -50%);
   z-index: 1201;
 }
-
 .watchlist-modal-close {
   position: absolute;
   right: 18px;
@@ -746,7 +706,6 @@ main {
   opacity: 1;
   outline: none;
 }
-
 .watchlist-modal-title {
   color: var(--accent, #e50914);
   font-weight: 770;
@@ -755,7 +714,6 @@ main {
   font-size: 1.33rem;
   letter-spacing: 0.01em;
 }
-
 .watchlist-modal-empty {
   display: flex;
   flex-direction: column;
@@ -766,7 +724,6 @@ main {
   color: var(--text-secondary, #ccc);
   margin: 28px 0 10px 0;
 }
-
 .watchlist-modal-list {
   width: 100%;
   display: flex;
@@ -774,7 +731,6 @@ main {
   gap: 18px;
   margin-top: 2px;
 }
-
 .watchlist-modal-item {
   display: flex;
   align-items: center;
@@ -785,7 +741,6 @@ main {
   gap: 15px;
   position: relative;
 }
-
 .remove-watchlist-btn {
   position: absolute;
   top: 7px;
@@ -818,7 +773,6 @@ main {
   opacity: 1;
   transform: scale(1.09);
 }
-
 @media (max-width: 400px) {
   .remove-watchlist-btn {
     width: 21px;
@@ -828,7 +782,6 @@ main {
     right: 4.5px;
   }
 }
-
 .watchlist-modal-poster {
   border-radius: 4.5px;
   background: #18181c;
@@ -838,7 +791,6 @@ main {
   box-shadow: 0 1.2px 9px #19181d30;
   border: 2px solid var(--accent, #e50914);
 }
-
 .watchlist-modal-meta {
   display: flex;
   flex-direction: column;
@@ -850,13 +802,10 @@ main {
   color: var(--text-color, #fff);
   margin-bottom: 4px;
 }
-
 .watchlist-modal-movie-year {
   font-size: 0.93rem;
   color: var(--text-secondary, #ccc);
 }
-
-/* Mobile optimization */
 @media (max-width: 540px) {
   .watchlist-modal-content {
     min-width: 0;
@@ -867,14 +816,12 @@ main {
   .watchlist-modal-title { font-size: 1.07rem; }
   .watchlist-modal-movie-title { font-size: 0.98rem; }
 }
-
 @media (max-width: 400px) {
   .watchlist-modal-list { gap: 9px;}
   .watchlist-modal-item { padding: 6px 3px 6px 3px; }
   .watchlist-modal-poster { width: 35px; height: 54px; }
   .watchlist-modal-title { font-size: .97rem; }
 }
-
 @media (max-width: 440px) {
   .offline-box, .error-box {
     padding: 16px 7px 17px 7px;
@@ -884,7 +831,7 @@ main {
   }
 }
 
-/* ==== Login Modal Styles ==== */
+/* ==== Login Modal Styles - Fully centered ==== */
 .login-modal-overlay {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
@@ -896,7 +843,6 @@ main {
   animation: modal-fade-in 0.23s;
   transition: background 0.18s;
 }
-
 .login-modal-content {
   background: var(--secondary-bg, #23232a);
   color: var(--text-color, #fff);
@@ -912,13 +858,11 @@ main {
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  /* Horizontally center, vertically at 30% of viewport */
-  top: 30%;
+  top: 50%;
   left: 50%;
-  transform: translate(-50%, -30%);
+  transform: translate(-50%, -50%);
   z-index: 1211;
 }
-
 .login-modal-close {
   position: absolute;
   right: 15px;
@@ -932,13 +876,11 @@ main {
   opacity: 0.86;
   transition: color 0.13s, opacity 0.16s;
 }
-
 .login-modal-close:hover, .login-modal-close:focus {
   color: var(--accent-hover, #b00610);
   opacity: 1;
   outline: none;
 }
-
 .login-modal-title {
   color: var(--accent, #e50914);
   font-weight: 760;
@@ -947,9 +889,7 @@ main {
   letter-spacing: 0.012em;
   text-align: center;
 }
-
 .btn-login {
-  /* Navbar "Login" button AND modal submit, used in both places */
   background: none;
   color: var(--accent, #e50914);
   border: 2px solid var(--accent, #e50914);
@@ -958,7 +898,6 @@ main {
   transition: background .15s, color .12s, border .13s;
   cursor: pointer;
 }
-
 .btn-login:hover,
 .btn-login:focus,
 .btn-login:active {
@@ -967,7 +906,6 @@ main {
   box-shadow: 0 2px 14px #e5091439;
   border: 2px solid var(--accent-hover, #b00610);
 }
-
 .btn-google-login {
   background: #fff;
   color: #222;
@@ -985,14 +923,12 @@ main {
   gap: 9px;
   justify-content: center;
 }
-
 .btn-google-login:hover,
 .btn-google-login:focus {
   background: #ececec;
   color: #111;
   border: 2px solid #d4d4d4;
 }
-
 @media (max-width: 540px) {
   .login-modal-content {
     min-width: 0;
@@ -1001,306 +937,4 @@ main {
     max-width: 99vw;
   }
   .login-modal-title { font-size: 1.03rem; }
-}
-/* ==== Login Modal Styles ==== */
-.login-modal-overlay {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  z-index: 1210;
-  background: rgba(26,13,16,0.68);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  animation: modal-fade-in 0.23s;
-  transition: background 0.18s;
-}
-
-.login-modal-content {
-  background: var(--secondary-bg, #23232a);
-  color: var(--text-color, #fff);
-  box-shadow: 0 10px 34px 0 #0a010833, 0 1.2px 12px #e5091425;
-  border-radius: 18px;
-  min-width: 280px;
-  width: 96vw;
-  max-width: 370px;
-  padding: 32px 22px 28px 22px;
-  position: relative;
-  max-height: 94vh;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-}
-
-.login-modal-close {
-  position: absolute;
-  right: 15px;
-  top: 15px;
-  background: none;
-  border: none;
-  color: var(--accent, #e50914);
-  font-size: 1.8rem;
-  font-weight: 800;
-  cursor: pointer;
-  opacity: 0.86;
-  transition: color 0.13s, opacity 0.16s;
-}
-
-.login-modal-close:hover, .login-modal-close:focus {
-  color: var(--accent-hover, #b00610);
-  opacity: 1;
-  outline: none;
-}
-
-.login-modal-title {
-  color: var(--accent, #e50914);
-  font-weight: 760;
-  margin: 0 0 20px 0;
-  font-size: 1.18rem;
-  letter-spacing: 0.012em;
-  text-align: center;
-}
-
-.btn-login {
-  /* Navbar "Login" button AND modal submit, used in both places */
-  background: none;
-  color: var(--accent, #e50914);
-  border: 2px solid var(--accent, #e50914);
-  border-radius: 6px;
-  font-weight: 700;
-  transition: background .15s, color .12s, border .13s;
-  cursor: pointer;
-}
-
-.btn-login:hover,
-.btn-login:focus,
-.btn-login:active {
-  background: var(--accent, #e50914);
-  color: #fff !important;
-  box-shadow: 0 2px 14px #e5091439;
-  border: 2px solid var(--accent-hover, #b00610);
-}
-
-.btn-google-login {
-  background: #fff;
-  color: #222;
-  border: 2px solid #eee;
-  border-radius: 7px;
-  font-weight: 700;
-  font-size: 1.01rem;
-  padding: 0.53em 0;
-  margin-bottom: 3px;
-  cursor: pointer;
-  box-shadow: 0 1.5px 10px #0001;
-  transition: background 0.14s, color 0.14s;
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  justify-content: center;
-}
-
-.btn-google-login:hover,
-.btn-google-login:focus {
-  background: #ececec;
-  color: #111;
-  border: 2px solid #d4d4d4;
-}
-
-@media (max-width: 540px) {
-  .login-modal-content {
-    min-width: 0;
-    width: 98vw;
-    padding: 18px 2vw 13px 2vw;
-    max-width: 99vw;
-  }
-  .login-modal-title { font-size: 1.03rem; }
-}
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  z-index: 1200;
-  background: rgba(26,13,16,0.65);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  animation: modal-fade-in 0.23s;
-  transition: background 0.18s;
-  
-@keyframes modal-fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-.watchlist-modal-content {
-  background: var(--secondary-bg, #23232a);
-  color: var(--text-color, #fff);
-  box-shadow: 0 8px 28px 0 #0a010831, 0 1.2px 19px #e5091425;
-  border-radius: 18px;
-  min-width: 300px;
-  width: 97vw;
-  max-width: 420px;
-  padding: 32px 22px 24px 22px;
-  position: relative;
-  outline: none;
-  max-height: 88vh;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-.watchlist-modal-close {
-  position: absolute;
-  right: 18px;
-  top: 17px;
-  background: none;
-  border: none;
-  color: var(--accent, #e50914);
-  font-size: 1.85rem;
-  font-weight: 700;
-  cursor: pointer;
-  z-index: 1;
-  opacity: 0.86;
-  transition: color 0.13s, opacity 0.16s;
-}
-.watchlist-modal-close:hover, .watchlist-modal-close:focus {
-  color: var(--accent-hover, #b00610);
-  opacity: 1;
-  outline: none;
-}
-
-.watchlist-modal-title {
-  color: var(--accent, #e50914);
-  font-weight: 770;
-  margin: 0 0 18px 0;
-  text-align: left;
-  font-size: 1.33rem;
-  letter-spacing: 0.01em;
-}
-
-.watchlist-modal-empty {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  font-size: 1.06rem;
-  color: var(--text-secondary, #ccc);
-  margin: 28px 0 10px 0;
-}
-
-.watchlist-modal-list {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  margin-top: 2px;
-}
-.watchlist-modal-item {
-  display: flex;
-  align-items: center;
-  background: rgba(30,21,28,0.85);
-  border-radius: 8px;
-  padding: 9px 8px 8px 5px;
-  box-shadow: 0 2px 9px 0 #2612142a;
-  gap: 15px;
-  position: relative;
-}
-
-/* Style for the small remove button in watchlist modal */
-.remove-watchlist-btn {
-  position: absolute;
-  top: 7px;
-  right: 7px;
-  width: 26px;
-  height: 26px;
-  min-width: 0;
-  min-height: 0;
-  background: none;
-  color: var(--accent, #e50914);
-  border: 2px solid var(--accent, #e50914);
-  border-radius: 50%;
-  font-size: 1.17rem;
-  font-weight: 900;
-  cursor: pointer;
-  opacity: 0.82;
-  transition: background 0.12s, color 0.12s, opacity 0.16s, border 0.15s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2;
-  padding: 0;
-}
-.remove-watchlist-btn:hover,
-.remove-watchlist-btn:focus {
-  background: var(--accent, #e50914);
-  color: #fff;
-  border: 2px solid var(--accent-hover, #b00610);
-  outline: none;
-  opacity: 1;
-  transform: scale(1.09);
-}
-
-@media (max-width: 400px) {
-  .remove-watchlist-btn {
-    width: 21px;
-    height: 21px;
-    font-size: 1rem;
-    top: 4.5px;
-    right: 4.5px;
-  }
-}
-
-.watchlist-modal-poster {
-  border-radius: 4.5px;
-  background: #18181c;
-  width: 48px;
-  height: 72px;
-  object-fit: cover;
-  box-shadow: 0 1.2px 9px #19181d30;
-  border: 2px solid var(--accent, #e50914);
-}
-
-.watchlist-modal-meta {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-.watchlist-modal-movie-title {
-  font-weight: 700;
-  font-size: 1.045rem;
-  color: var(--text-color, #fff);
-  margin-bottom: 4px;
-}
-
-.watchlist-modal-movie-year {
-  font-size: 0.93rem;
-  color: var(--text-secondary, #ccc);
-}
-
-/* Mobile optimization */
-@media (max-width: 540px) {
-  .watchlist-modal-content {
-    min-width: 0;
-    width: 98vw;
-    padding: 20px 2vw 16px 2vw;
-    max-width: 99vw;
-  }
-  .watchlist-modal-title { font-size: 1.07rem; }
-  .watchlist-modal-movie-title { font-size: 0.98rem; }
-}
-
-@media (max-width: 400px) {
-  .watchlist-modal-list { gap: 9px;}
-  .watchlist-modal-item { padding: 6px 3px 6px 3px; }
-  .watchlist-modal-poster { width: 35px; height: 54px; }
-  .watchlist-modal-title { font-size: .97rem; }
-}
-
-@media (max-width: 440px) {
-  .offline-box, .error-box {
-    padding: 16px 7px 17px 7px;
-    font-size: 0.95rem;
-    width: 96vw;
-    min-width: 0;
-  }
 }

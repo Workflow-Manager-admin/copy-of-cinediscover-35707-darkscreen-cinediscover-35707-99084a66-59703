@@ -111,11 +111,11 @@ function App() {
                 onClick={() => setModalOpen(true)}
                 style={{
                   marginLeft: 0,
-                  minWidth: 90,
+                  minWidth: 110,
                   fontWeight: 700,
                   border: "none",
                   boxShadow: "none",
-                  padding: "0.36em 1.05em",
+                  padding: "0.36em 1.22em",
                   height: 34,
                   lineHeight: 1.2
                 }}

@@ -297,7 +297,7 @@ main {
   color: #fff;
   border: 2.4px solid rgba(255,68,88,0.30);
   border-radius: 22px;
-  padding: 0.36em 1.05em;
+  padding: 0.36em 1.22em;
   margin-left: 10px;
   box-sizing: border-box;
   font-size: 0.98rem;
@@ -316,7 +316,7 @@ main {
   text-shadow:
     0 1px 6px #e5091428;
   min-height: 32px;
-  min-width: 90px;
+  min-width: 110px;
   backdrop-filter: blur(7px) saturate(1.35);
   -webkit-backdrop-filter: blur(7px) saturate(1.35);
   box-shadow:

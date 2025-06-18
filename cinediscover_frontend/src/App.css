@@ -223,7 +223,7 @@ body,
   border-bottom: 2.5px solid var(--accent);
 }
 
-/* CineScope Header Custom Styles */
+/* CineDiscover Header Custom Styles */
 .cine-navbar {
   background: linear-gradient(90deg, #16161b 76%, #250307 110%);
   box-shadow: 0 4px 22px 0 #e5091428;

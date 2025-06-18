@@ -113,7 +113,7 @@ export default function LoginModal({ open, onClose }) {
             textAlign: "center"
           }}
         >
-          Sign In to CineScope
+          Sign In to CineDiscover
         </div>
         <form
           className="login-modal-form"

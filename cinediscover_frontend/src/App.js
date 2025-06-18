@@ -62,12 +62,12 @@ function App() {
               justifyContent: 'space-between'
             }}
           >
-            {/* CineScope Brand Header */}
+            {/* CineDiscover Brand Header */}
             <div className="cine-logo-header">
-              <span className="cine-logo-icon" aria-label="CineScope" role="img">🎬</span>
+              <span className="cine-logo-icon" aria-label="CineDiscover" role="img">🎬</span>
               <span className="cine-logo-text">
                 Cine
-                <span style={{ color: 'var(--accent)' }}>Scope</span>
+                <span style={{ color: 'var(--accent)' }}>Discover</span>
               </span>
             </div>
             {/* Action Buttons: Watchlist and Login */}

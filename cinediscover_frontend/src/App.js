@@ -34,8 +34,14 @@ function App() {
     return () => window.removeEventListener("hashchange", onNav);
   }, [modalOpen]);
 
+  // Animation: fade-in effect on load
+  const [show, setShow] = useState(false);
+  useEffect(() => {
+    setShow(true);
+  }, []);
+
   return (
-    <div className="app">
+    <div className={`app${show ? " app-fadein" : ""}`}>
       {/* Subtle background for upper 45%: absolutely layered behind all UI. 
           Increased coverage and visibility per design update. */}
       <div

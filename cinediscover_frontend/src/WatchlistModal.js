@@ -1,5 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import "./App.css";
+// All modal centering and overlay positioning for the watchlist modal is strictly handled via CSS (position: fixed, transform: translate(-50%, -50%))
+// Any legacy usage of scroll-offset or JS-based centering has been removed/not used.
 
 /**
  * Modal overlay that displays the user's watchlist.

@@ -51,14 +51,12 @@ export default function LoginModal({ open, onClose }) {
       aria-modal="true"
       role="dialog"
       tabIndex={-1}
-      style={{
-        // Now handled entirely in App.css for modal overlay and stacking
-      }}
+      // Removed any JS-based scroll offset; positioning and centering are handled by CSS (position: fixed and transform).
     >
       <div
         className="login-modal-content"
         tabIndex={0}
-        // All modal positioning and style moved to App.css for consistency.
+        // All modal positioning and style is handled in App.css.
       >
         <button
           className="login-modal-close"
